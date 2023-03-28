@@ -1,4 +1,4 @@
-FROM php:8.1-cli AS builder
+FROM php:7.4-cli AS builder
 
 # install composer to /composer.phar
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -27,7 +27,7 @@ RUN yarn build
 
 #------------------------------------------------------------------------------
 
-FROM php:8.1-apache
+FROM php:7.4-apache
 
 ENV APACHE_DOCUMENT_ROOT /app/public
 
