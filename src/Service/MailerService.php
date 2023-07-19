@@ -14,7 +14,7 @@ use Twig\Environment;
 
 class MailerService
 {
-    const FROM_ADDRESS = 'noreply@tool.wueww.de';
+    const FROM_ADDRESS = 'noreply@backend.timetable.wueww.de';
 
     /**
      * @var Environment
