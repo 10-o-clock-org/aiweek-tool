@@ -57,14 +57,14 @@ class SessionWithDetailType extends AbstractType
             $builder->add('date', ChoiceType::class, [
                 'label' => 'Datum',
                 'choices' => [
-                    'Freitag, 21. Oktober 2022' => '2022-10-21',
-                    'Samstag, 22. Oktober 2022' => '2022-10-22',
-                    'Sonntag, 23. Oktober 2022' => '2022-10-23',
-                    'Montag, 24. Oktober 2022' => '2022-10-24',
-                    'Dienstag, 25. Oktober 2022' => '2022-10-25',
-                    'Mittwoch, 26. Oktober 2022' => '2022-10-26',
-                    'Donnerstag, 27. Oktober 2022' => '2022-10-27',
-                    'Freitag, 28. Oktober 2022' => '2022-10-28',
+                    'Freitag, 17. November 2023' => '2023-11-21',
+                    'Samstag, 18. November 2023' => '2023-11-22',
+                    'Sonntag, 19. November 2023' => '2023-11-23',
+                    'Montag, 20. November 2023' => '2023-11-24',
+                    'Dienstag, 21. November 2023' => '2023-11-25',
+                    'Mittwoch, 22. November 2023' => '2023-11-26',
+                    'Donnerstag, 23. November 2023' => '2023-11-27',
+                    'Freitag, 24. November 2023' => '2023-11-28',
                 ],
             ]);
 
