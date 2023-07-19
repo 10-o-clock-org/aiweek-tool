@@ -78,13 +78,6 @@ class OrganizationDetailType extends AbstractType
                     'maxlength' => 255,
                 ],
             ])
-            ->add('xingUrl', TextType::class, [
-                'label' => 'Xing-Profil',
-                'required' => false,
-                'attr' => [
-                    'maxlength' => 255,
-                ],
-            ])
             ->add('linkedinUrl', TextType::class, [
                 'label' => 'LinkedIn-Profil',
                 'required' => false,

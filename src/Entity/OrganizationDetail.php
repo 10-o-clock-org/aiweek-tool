@@ -74,12 +74,6 @@ class OrganizationDetail
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\Url(message = "Die erfasste URL ist ungültig.")
      */
-    private $xingUrl;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Url(message = "Die erfasste URL ist ungültig.")
-     */
     private $linkedinUrl;
 
     /**
@@ -213,20 +207,7 @@ class OrganizationDetail
             ->setTwitterUrl($this->getTwitterUrl())
             ->setYoutubeUrl($this->getYoutubeUrl())
             ->setInstagramUrl($this->getInstagramUrl())
-            ->setXingUrl($this->getXingUrl())
             ->setLinkedinUrl($this->getLinkedinUrl());
-    }
-
-    public function getXingUrl(): ?string
-    {
-        return $this->xingUrl;
-    }
-
-    public function setXingUrl(?string $xingUrl): self
-    {
-        $this->xingUrl = $xingUrl;
-
-        return $this;
     }
 
     public function getLinkedinUrl(): ?string

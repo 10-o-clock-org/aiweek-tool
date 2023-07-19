@@ -134,10 +134,6 @@ class JsonExportController extends AbstractController
             $result['links']['instagram'] = $details->getInstagramUrl();
         }
 
-        if ($details->getXingUrl()) {
-            $result['links']['xing'] = $details->getXingUrl();
-        }
-
         if ($details->getLinkedinUrl()) {
             $result['links']['linkedIn'] = $details->getLinkedinUrl();
         }
