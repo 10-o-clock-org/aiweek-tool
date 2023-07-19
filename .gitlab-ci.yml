@@ -29,4 +29,4 @@ promote:
   script:
     - cd /app
     - rsync -rtl COPYING README.md assets bin composer.json composer.lock config migrations public src templates vendor m3621@web15.biohost.net:/home/m3621/Sites/backend.timetable.wueww.de/
-    #- ssh u72036@event-tool.zukunftswoche-mainfranken.de "cd event-tool.zukunftswoche-mainfranken.de && php81 bin/console cache:clear && php81 bin/console cache:warmup && php81 bin/console doc:mig:mig -vv --no-interaction"
+    - ssh m3621@web15.biohost.net "cd Sites/backend.timetable.wueww.de && php7.4 bin/console cache:clear && php7.4 bin/console cache:warmup && php7.4 bin/console doc:mig:mig -vv --no-interaction"
