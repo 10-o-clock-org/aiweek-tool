@@ -58,7 +58,7 @@ class OrganizationDetailType extends AbstractType
                 ],
             ])
             ->add('twitterUrl', TextType::class, [
-                'label' => 'Twitter-Profil',
+                'label' => 'Twitter/X-Profil',
                 'required' => false,
                 'attr' => [
                     'maxlength' => 255,
