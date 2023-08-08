@@ -56,6 +56,7 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
                     ->setStreetNo('Nicht-Freigegeben-Straße 17a')
                     ->setZipcode('97072')
                     ->setCity('Würzburg')
+                    ->setIsAccessible(false)
             )
             ->setLink('http://wueww.de/session/nicht/freigegeben');
 
@@ -79,6 +80,7 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
                     ->setStreetNo('')
                     ->setZipcode('')
                     ->setCity('')
+                    ->setIsAccessible(false)
             )
             ->setLink('http://wueww.de/session/online-only');
 
@@ -108,6 +110,7 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
                     ->setStreetNo('Freigegeben-Straße 17a')
                     ->setZipcode('97072')
                     ->setCity('Würzburg')
+                    ->setIsAccessible(false)
             )
             ->setLink('http://wueww.de/session/freigegeben');
 
@@ -139,6 +142,7 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
                     ->setStreetNo('Freigegeben-Straße 17a')
                     ->setZipcode('97072')
                     ->setCity('Würzburg')
+                    ->setIsAccessible(false)
             )
             ->setLink('http://wueww.de/session/alt');
 
@@ -168,6 +172,7 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
                     ->setStreetNo('Freigegeben-Straße 17a')
                     ->setZipcode('97072')
                     ->setCity('Würzburg')
+                    ->setIsAccessible(false)
             )
             ->setLink('http://wueww.de/session/freigegeben');
 
@@ -182,6 +187,7 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
                     ->setStreetNo('Freigegeben-Straße 17a')
                     ->setZipcode('97072')
                     ->setCity('Würzburg')
+                    ->setIsAccessible(false)
             )
             ->setLink('http://wueww.de/session/freigegeben');
 
@@ -214,6 +220,7 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
                     ->setStreetNo('Freigegeben-Straße 17a')
                     ->setZipcode('97072')
                     ->setCity('Würzburg')
+                    ->setIsAccessible(false)
             )
             ->setLink('http://wueww.de/session/freigegeben');
 
