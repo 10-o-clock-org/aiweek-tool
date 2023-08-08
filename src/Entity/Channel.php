@@ -22,6 +22,12 @@ class Channel
      */
     private $name;
 
+    /**
+     * @ORM\Column(type="integer")
+     * @var integer
+     */
+    private $sort;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -36,6 +42,17 @@ class Channel
     {
         $this->name = $name;
 
+        return $this;
+    }
+
+    public function getSort(): ?int
+    {
+        return $this->sort;
+    }
+
+    public function setSort(int $sort): self
+    {
+        $this->sort = $sort;
         return $this;
     }
 }

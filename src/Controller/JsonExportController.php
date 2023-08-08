@@ -48,6 +48,7 @@ class JsonExportController extends AbstractController
     {
         return [
             'id' => $channel->getId(),
+            'sort' => $channel->getSort(),
             'name' => $channel->getName(),
         ];
     }

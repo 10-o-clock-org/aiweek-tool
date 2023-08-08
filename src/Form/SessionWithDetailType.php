@@ -7,6 +7,8 @@ use App\Entity\Channel;
 use App\Entity\Organization;
 use App\Entity\User;
 use App\Repository\OrganizationRepository;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Form\AbstractType;
@@ -136,6 +138,9 @@ class SessionWithDetailType extends AbstractType
                 'attr' => [
                     'class' => 'cancel-return',
                 ],
+                'query_builder' => function (EntityRepository $er): QueryBuilder {
+                    return $er->createQueryBuilder('c')->orderBy('c.sort', 'ASC');
+                },
             ]);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $formEvent) {
