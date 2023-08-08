@@ -33,7 +33,7 @@ class JsonExportController extends AbstractController
         }
 
         $json = [
-            'format' => '0.5.2',
+            'format' => '0.5.3',
             'sessions' => array_map([$this, 'mapSession'], $sessions),
             'channels' => array_map([$this, 'mapChannel'], $channelRepository->findAll()),
         ];
@@ -158,6 +158,7 @@ class JsonExportController extends AbstractController
             'streetNo' => $location->getStreetNo(),
             'zipcode' => $location->getZipcode(),
             'city' => $location->getCity(),
+            'isAccessible' => (bool) $location->getIsAccessible(),
         ];
 
         if ($session->getAcceptedDetails()->getLocationLat() && $session->getAcceptedDetails()->getLocationLng()) {
