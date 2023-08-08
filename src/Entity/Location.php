@@ -34,6 +34,11 @@ class Location
      */
     private $city;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isAccessible;
+
     public function getName(): ?string
     {
         return $this->name;
@@ -78,6 +83,18 @@ class Location
     public function setCity(?string $city): self
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function getIsAccessible(): ?bool
+    {
+        return $this->isAccessible;
+    }
+
+    public function setIsAccessible(?bool $isAccessible): self
+    {
+        $this->isAccessible = $isAccessible;
 
         return $this;
     }
