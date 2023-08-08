@@ -2,12 +2,10 @@
 
 namespace App\Service;
 
-use App\Entity\Apprenticeship;
 use App\Entity\Organization;
 use App\Entity\Session;
 use App\Entity\Token;
 use App\Entity\User;
-use App\EventSubscriber\UteNotifier;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Twig\Environment;
@@ -103,21 +101,6 @@ class MailerService
             ->text(
                 $this->twig->render('emails/session_cancelled.txt.twig', [
                     'session' => $session,
-                ])
-            );
-
-        $this->mailer->send($message);
-    }
-
-    public function sendApprenticeshipAwaitingApprovalMail(string $toAddress, Apprenticeship $apprenticeship)
-    {
-        $message = (new Email())
-            ->from(self::FROM_ADDRESS)
-            ->to($toAddress)
-            ->subject('Ausbildungsstätte geändert')
-            ->text(
-                $this->twig->render('emails/apprenticeship_awaiting_approval.txt.twig', [
-                    'apprenticeship' => $apprenticeship,
                 ])
             );
 
