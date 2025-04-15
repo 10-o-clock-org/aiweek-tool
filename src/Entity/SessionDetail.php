@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\DTO\SessionWithDetail;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SessionDetailRepository")
@@ -16,6 +17,32 @@ class SessionDetail
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @var ?\DateTimeInterface
+     * @Assert\NotBlank(message="Ein Startzeitpunkt muss eingegeben werden.")
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $start1;
+
+    /**
+     * @var ?\DateTimeInterface
+     * @Assert\NotBlank(message="Ein Alternativtermin muss eingegeben werden.")
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $start2;
+
+    /**
+     * @var ?\DateTimeInterface
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $start3;
+
+    /**
+     * @var int|null
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $duration;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -70,6 +97,50 @@ class SessionDetail
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getStart1(): ?\DateTimeInterface
+    {
+        return $this->start1;
+    }
+
+    public function setStart1(?\DateTimeInterface $start1): SessionDetail
+    {
+        $this->start1 = $start1;
+        return $this;
+    }
+
+    public function getStart2(): ?\DateTimeInterface
+    {
+        return $this->start2;
+    }
+
+    public function setStart2(?\DateTimeInterface $start2): SessionDetail
+    {
+        $this->start2 = $start2;
+        return $this;
+    }
+
+    public function getStart3(): ?\DateTimeInterface
+    {
+        return $this->start3;
+    }
+
+    public function setStart3(?\DateTimeInterface $start3): SessionDetail
+    {
+        $this->start3 = $start3;
+        return $this;
+    }
+
+    public function getDuration(): ?int
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(?int $duration): SessionDetail
+    {
+        $this->duration = $duration;
+        return $this;
     }
 
     public function getTitle(): ?string
@@ -170,7 +241,12 @@ class SessionDetail
 
     public function apply(SessionWithDetail $sessionWithDetail)
     {
-        $this->setOnlineOnly($sessionWithDetail->getOnlineOnly())
+        $this
+            ->setStart1($this->convertToDateTime($sessionWithDetail->getDate1(), $sessionWithDetail->getStart1()))
+            ->setStart2($this->convertToDateTime($sessionWithDetail->getDate2(), $sessionWithDetail->getStart2()))
+            ->setStart3($this->convertToDateTime($sessionWithDetail->getDate3(), $sessionWithDetail->getStart3()))
+            ->setDuration($sessionWithDetail->getDuration())
+            ->setOnlineOnly($sessionWithDetail->getOnlineOnly())
             ->setTitle($sessionWithDetail->getTitle())
             ->setShortDescription($sessionWithDetail->getShortDescription())
             ->setLongDescription($sessionWithDetail->getLongDescription())
@@ -204,5 +280,23 @@ class SessionDetail
         $this->channel = $channel;
 
         return $this;
+    }
+
+    private function convertToDateTime(?\DateTimeInterface $date, ?\DateTimeInterface $start)
+    {
+        if ($date === null || $start === null) {
+            return null;
+        }
+
+        return (new \DateTime())
+            ->setDate(
+                (int) $date->format('Y'),
+                (int) $date->format('m'),
+                (int) $date->format('d')
+            )
+            ->setTime(
+                (int) $start->format('H'),
+                (int) $start->format('i')
+            );
     }
 }

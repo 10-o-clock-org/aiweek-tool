@@ -46,51 +46,22 @@ class SessionWithDetailType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        if ($this->useFreeDateInput || \in_array(User::ROLE_EDITOR, $this->tokenStorage->getToken()->getRoleNames())) {
-            $builder->add('date', TextType::class, [
-                'label' => 'Datum',
-                'attr' => [
-                    'placeholder' => 'TT.MM.JJJJ',
-                ],
-            ]);
+        $this->createStartDateTime($builder, '1');
+        $this->createStartDateTime($builder, '2');
+        $this->createStartDateTime($builder, '3', false);
 
-            $builder->get('date')->addModelTransformer(new DateTimeToStringTransformer(null, null, 'd.m.Y'));
-        } else {
-            $builder->add('date', ChoiceType::class, [
-                'label' => 'Datum',
-                'choices' => [
-                    'Freitag, 17. November 2023' => '2023-11-17',
-                    'Samstag, 18. November 2023' => '2023-11-18',
-                    'Sonntag, 19. November 2023' => '2023-11-19',
-                    'Montag, 20. November 2023' => '2023-11-20',
-                    'Dienstag, 21. November 2023' => '2023-11-21',
-                    'Mittwoch, 22. November 2023' => '2023-11-22',
-                    'Donnerstag, 23. November 2023' => '2023-11-23',
-                    'Freitag, 24. November 2023' => '2023-11-24',
-                ],
-            ]);
-
-            $builder->get('date')->addModelTransformer(new DateTimeToStringTransformer(null, null, 'Y-m-d'));
-        }
+        $builder->add('duration', ChoiceType::class, [
+            'label' => 'Voraussichtliche Dauer',
+            'required' => false,
+            'choices' => [
+                'halbe Stunde' => 30,
+                'eine Stunde' => 60,
+                'zwei Stunden' => 120,
+                'halber Tag' => 240,
+            ],
+        ]);
 
         $builder
-            ->add('start', TimeType::class, [
-                'label' => 'Beginn (z. B. 18:00)',
-                'widget' => 'single_text',
-                'html5' => false,
-                'invalid_message' =>
-                    'Die erfasste Uhrzeit ist ungültig, bitte nur Stunden und Minuten eingeben (z. B. 18:00).',
-                'attr' => ['class' => 'cancel-return'],
-            ])
-            ->add('stop', TimeType::class, [
-                'label' => 'Ende',
-                'widget' => 'single_text',
-                'html5' => false,
-                'required' => false,
-                'invalid_message' =>
-                    'Die erfasste Uhrzeit ist ungültig, bitte nur Stunden und Minuten eingeben (z. B. 18:00).',
-                'attr' => ['class' => 'cancel-return'],
-            ])
             ->add('title', TextType::class, [
                 'label' => 'Titel',
                 'attr' => [
@@ -176,5 +147,44 @@ class SessionWithDetailType extends AbstractType
                 return ['Default', $data->getOnlineOnly() ? 'online_only_event' : 'offline_event'];
             },
         ]);
+    }
+
+    private function createStartDateTime(FormBuilderInterface $builder, string $suffix, bool $required = true)
+    {
+        if ($this->useFreeDateInput || \in_array(User::ROLE_EDITOR, $this->tokenStorage->getToken()->getRoleNames())) {
+            $builder->add('date' . $suffix, TextType::class, [
+                'label' => 'Datum',
+                'required' => $required,
+                'attr' => [
+                    'placeholder' => 'TT.MM.JJJJ',
+                ],
+            ]);
+
+            $builder->get('date' . $suffix)->addModelTransformer(new DateTimeToStringTransformer(null, null, 'd.m.Y'));
+        } else {
+            $builder->add('date' . $suffix, ChoiceType::class, [
+                'label' => 'Datum',
+                'required' => $required,
+                'choices' => [
+                    'Montag, 30. Juni 2025' => '2025-06-30',
+                    'Dienstag, 1. Juli 2025' => '2025-07-01',
+                    'Mittwoch, 2. Juli 2025' => '2025-07-02',
+                    'Donnerstag, 3. Juli 2025' => '2025-07-03',
+                ],
+            ]);
+
+            $builder->get('date' . $suffix)->addModelTransformer(new DateTimeToStringTransformer(null, null, 'Y-m-d'));
+        }
+
+        $builder->add('start' . $suffix, TimeType::class, [
+            'label' => 'Beginn (z. B. 18:00)',
+            'widget' => 'single_text',
+            'html5' => false,
+            'invalid_message' =>
+                'Die erfasste Uhrzeit ist ungültig, bitte nur Stunden und Minuten eingeben (z. B. 18:00).',
+            'attr' => ['class' => 'cancel-return'],
+            'required' => $required,
+        ]);
+
     }
 }

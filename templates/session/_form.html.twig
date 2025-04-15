@@ -1,10 +1,27 @@
 {{ form_start(form) }}
 
 <h2>Wann?</h2>
-{{ form_row(form.date) }}
-{{ form_row(form.start) }}
-{{ form_row(form.stop) }}
-<div id="parallel-session-hint-box"></div>
+
+<div class="alert alert-info" role="alert" style="margin-top: 1rem">
+    <p>
+        Den finalen Zeitpunkt für dein Event legen wir gemeinsam fest. Bitte mache hier mindestens zwei, besser drei
+        Vorschläge, wann du das Event durchführen möchtest. Nach Auswahl durch die Jury werden wir versuchen alle Events
+        so zu planen, dass möglichst keine Events gleichzeitig oder zu nah beieinander stattfinden.
+    </p>
+</div>
+
+<h5>Dein Wunschtermin</h5>
+{{ form_row(form.date1) }}
+{{ form_row(form.start1) }}
+{{ form_row(form.duration) }}
+
+<h5>Dein Alternativtermin</h5>
+{{ form_row(form.date2) }}
+{{ form_row(form.start2) }}
+
+<h5>Weiterer Ersatztermin</h5>
+{{ form_row(form.date3) }}
+{{ form_row(form.start3) }}
 
 <h2>Worum geht's?</h2>
 

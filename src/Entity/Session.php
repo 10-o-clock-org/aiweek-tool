@@ -25,11 +25,6 @@ class Session
     private $start;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $stop;
-
-    /**
      * @var boolean
      * @ORM\Column(type="boolean")
      */
@@ -92,18 +87,6 @@ class Session
     public function setStart(?\DateTimeInterface $start): self
     {
         $this->start = $start;
-
-        return $this;
-    }
-
-    public function getStop(): ?\DateTimeInterface
-    {
-        return $this->stop;
-    }
-
-    public function setStop(?\DateTimeInterface $stop): self
-    {
-        $this->stop = $stop;
 
         return $this;
     }
@@ -193,12 +176,13 @@ class Session
 
         return (new SessionWithDetail())
             ->setId($this->getId())
-            ->setDate($this->getStart())
-            ->setStart($this->getStart())
-            ->setStop($this->getStop())
             ->setOrganization($this->getOrganization())
             ->setChannel($details->getChannel())
             ->setOnlineOnly($details->getOnlineOnly())
+            ->setStart1($details->getStart1())
+            ->setStart2($details->getStart2())
+            ->setStart3($details->getStart3())
+            ->setDuration($details->getDuration())
             ->setTitle($details->getTitle())
             ->setShortDescription($details->getShortDescription())
             ->setLongDescription($details->getLongDescription())
@@ -210,33 +194,7 @@ class Session
 
     public function applyDetails(SessionWithDetail $sessionWithDetail): self
     {
-        $start = (new \DateTime())
-            ->setDate(
-                (int) $sessionWithDetail->getDate()->format('Y'),
-                (int) $sessionWithDetail->getDate()->format('m'),
-                (int) $sessionWithDetail->getDate()->format('d')
-            )
-            ->setTime(
-                (int) $sessionWithDetail->getStart()->format('H'),
-                (int) $sessionWithDetail->getStart()->format('i')
-            );
-
-        $stop =
-            $sessionWithDetail->getStop() === null
-                ? null
-                : (new \DateTime())
-                    ->setDate(
-                        (int) $sessionWithDetail->getDate()->format('Y'),
-                        (int) $sessionWithDetail->getDate()->format('m'),
-                        (int) $sessionWithDetail->getDate()->format('d')
-                    )
-                    ->setTime(
-                        (int) $sessionWithDetail->getStop()->format('H'),
-                        (int) $sessionWithDetail->getStop()->format('i')
-                    );
-
         if (
-            $this->getStart() === null &&
             $this->getAcceptedDetails() !== null &&
             $this->getAcceptedDetails()->differs($sessionWithDetail)
         ) {
@@ -246,9 +204,7 @@ class Session
             $this->setAcceptedDetails(null);
         }
 
-        $this->setStart($start)
-            ->setStop($stop)
-            ->setOrganization($sessionWithDetail->getOrganization());
+        $this->setOrganization($sessionWithDetail->getOrganization());
 
         if (!$this->getDraftDetails()->differs($sessionWithDetail)) {
             return $this;

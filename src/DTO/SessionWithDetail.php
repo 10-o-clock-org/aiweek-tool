@@ -16,21 +16,43 @@ class SessionWithDetail
     private $id;
 
     /**
-     * @var \DateTimeInterface
+     * @var \DateTimeInterface|null
      * @Assert\NotBlank(message="Ein Startzeitpunkt muss eingegeben werden.")
      */
-    private $date;
+    private $date1;
 
     /**
-     * @var \DateTimeInterface
+     * @var \DateTimeInterface|null
      * @Assert\NotBlank(message="Ein Startzeitpunkt muss eingegeben werden.")
      */
-    private $start;
+    private $start1;
+
+    /**
+     * @var \DateTimeInterface|null
+     * @Assert\NotBlank(message="Ein Alternativtermin muss eingegeben werden.")
+     */
+    private $date2;
+
+    /**
+     * @var \DateTimeInterface|null
+     * @Assert\NotBlank(message="Ein Alternativtermin muss eingegeben werden.")
+     */
+    private $start2;
 
     /**
      * @var \DateTimeInterface|null
      */
-    private $stop;
+    private $date3;
+
+    /**
+     * @var \DateTimeInterface|null
+     */
+    private $start3;
+
+    /**
+     * @var int|null
+     */
+    private $duration;
 
     /**
      * @var string|null
@@ -96,19 +118,6 @@ class SessionWithDetail
      */
     private $link;
 
-    /**
-     * @Assert\Callback
-     */
-    public function validate(ExecutionContextInterface $context)
-    {
-        if ($this->stop !== null && $this->stop <= $this->start) {
-            $context
-                ->buildViolation('Event-Beginn muss vor dem Event-Ende liegen.')
-                ->atPath('stop')
-                ->addViolation();
-        }
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -120,36 +129,80 @@ class SessionWithDetail
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate1(): ?\DateTimeInterface
     {
-        return $this->date;
+        return $this->date1;
     }
 
-    public function setDate(?\DateTimeInterface $date): SessionWithDetail
+    public function setDate1(?\DateTimeInterface $date1): SessionWithDetail
     {
-        $this->date = $date;
+        $this->date1 = $date1;
         return $this;
     }
 
-    public function getStart(): ?\DateTimeInterface
+    public function getDate2(): ?\DateTimeInterface
     {
-        return $this->start;
+        return $this->date2;
     }
 
-    public function setStart(?\DateTimeInterface $start): SessionWithDetail
+    public function setDate2(?\DateTimeInterface $date2): SessionWithDetail
     {
-        $this->start = $start;
+        $this->date2 = $date2;
         return $this;
     }
 
-    public function getStop(): ?\DateTimeInterface
+    public function getDate3(): ?\DateTimeInterface
     {
-        return $this->stop;
+        return $this->date3;
     }
 
-    public function setStop(?\DateTimeInterface $stop): SessionWithDetail
+    public function setDate3(?\DateTimeInterface $date3): SessionWithDetail
     {
-        $this->stop = $stop;
+        $this->date3 = $date3;
+        return $this;
+    }
+
+    public function getStart1(): ?\DateTimeInterface
+    {
+        return $this->start1;
+    }
+
+    public function setStart1(?\DateTimeInterface $start1): SessionWithDetail
+    {
+        $this->start1 = $start1;
+        return $this;
+    }
+
+    public function getStart2(): ?\DateTimeInterface
+    {
+        return $this->start2;
+    }
+
+    public function setStart2(?\DateTimeInterface $start2): SessionWithDetail
+    {
+        $this->start2 = $start2;
+        return $this;
+    }
+
+    public function getStart3(): ?\DateTimeInterface
+    {
+        return $this->start3;
+    }
+
+    public function setStart3(?\DateTimeInterface $start3): SessionWithDetail
+    {
+        $this->start3 = $start3;
+        return $this;
+    }
+
+    public function getDuration(): ?int
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(?int $duration): SessionWithDetail
+    {
+        $this->duration = $duration;
         return $this;
     }
 

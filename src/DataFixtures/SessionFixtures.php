@@ -40,7 +40,6 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
     {
         $session = (new Session())
             ->setStart(new \DateTimeImmutable('2021-10-22 14:00'))
-            ->setStop(new \DateTimeImmutable('2021-10-22 16:00'))
             ->setCancelled(false)
             ->setOrganization($reporter->getOrganizations()->first());
 
@@ -86,7 +85,6 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
 
         $session = (new Session())
             ->setStart(new \DateTimeImmutable('2021-10-23 14:00'))
-            ->setStop(new \DateTimeImmutable('2021-10-23 16:00'))
             ->setCancelled(false)
             ->setOrganization($reporter->getOrganizations()->first())
             ->setDraftDetails($detail);
@@ -116,7 +114,6 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
 
         $session = (new Session())
             ->setStart(new \DateTimeImmutable('2021-10-23 14:00'))
-            ->setStop(new \DateTimeImmutable('2021-10-23 16:00'))
             ->setCancelled(false)
             ->setOrganization($reporter->getOrganizations()->first())
             ->setDraftDetails($detail);
@@ -148,7 +145,6 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
 
         $session = (new Session())
             ->setStart(null)
-            ->setStop(null)
             ->setCancelled(false)
             ->setOrganization($reporter->getOrganizations()->first())
             ->setDraftDetails($detail);
@@ -193,7 +189,6 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
 
         $session = (new Session())
             ->setStart(new \DateTimeImmutable('2021-10-27 14:00'))
-            ->setStop(new \DateTimeImmutable('2021-10-27 16:00'))
             ->setCancelled(false)
             ->setOrganization($reporter->getOrganizations()->first())
             ->setDraftDetails($detailAccepted);
@@ -226,7 +221,6 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
 
         $session = (new Session())
             ->setStart(new \DateTimeImmutable('2021-10-29 14:00'))
-            ->setStop(new \DateTimeImmutable('2021-10-29 16:00'))
             ->setOrganization($reporter->getOrganizations()->first())
             ->setDraftDetails($detail);
 
