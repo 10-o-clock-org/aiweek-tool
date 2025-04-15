@@ -25,7 +25,7 @@ class UserFixture extends Fixture
         $this->passwordHasher = $passwordHasher;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $editor = new User();
         $editor->setEmail('editor@example.org');

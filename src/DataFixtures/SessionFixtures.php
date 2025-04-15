@@ -12,7 +12,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class SessionFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         /** @var User $reporter1 */
         $reporter1 = $this->getReference(UserFixture::REPORTER1_USER_REF);
@@ -31,7 +31,7 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [UserFixture::class];
     }
