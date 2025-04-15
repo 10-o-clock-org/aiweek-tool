@@ -1,4 +1,4 @@
-FROM php:7.4-cli AS builder
+FROM php:8.2-cli AS builder
 
 # install composer to /composer.phar
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -6,11 +6,17 @@ RUN php composer-setup.php
 
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 
+# install nodejs
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main" > /etc/apt/sources.list.d/nodesource.list
+RUN apt-get update && \
+        DEBIAN_FRONTEND=noninteractive apt-get install -y nodejs
+
+# install php extensions
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -yq \
     zlib1g-dev libpng-dev libjpeg-dev libzip-dev \
     git \
-    unzip \
-    nodejs
+    unzip
 
 RUN docker-php-ext-install gd && \
 	docker-php-ext-install zip
@@ -19,7 +25,7 @@ RUN docker-php-ext-install gd && \
 COPY / /app
 WORKDIR /app
 
-RUN php /composer.phar install
+RUN COMPOSER_ALLOW_SUPERUSER=1 php /composer.phar install
 
 RUN npm -g install yarn
 RUN yarn install
@@ -27,7 +33,7 @@ RUN yarn build
 
 #------------------------------------------------------------------------------
 
-FROM php:7.4-apache
+FROM php:8.2-apache
 
 ENV APACHE_DOCUMENT_ROOT /app/public
 
