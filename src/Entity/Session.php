@@ -20,11 +20,6 @@ class Session
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100, nullable=true, unique=true)
-     */
-    private $importKey;
-
-    /**
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $start;
@@ -87,25 +82,6 @@ class Session
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getImportKey(): ?string
-    {
-        return $this->importKey;
-    }
-
-    /**
-     * @param string|null $importKey
-     * @return Session
-     */
-    public function setImportKey(?string $importKey): self
-    {
-        $this->importKey = $importKey;
-
-        return $this;
     }
 
     public function getStart(): ?\DateTimeInterface
