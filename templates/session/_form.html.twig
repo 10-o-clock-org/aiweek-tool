@@ -23,22 +23,10 @@
 {{ form_row(form.longDescription) }}
 
 <div class="alert alert-info" role="alert">
-    <p><strong>Kategorien – darum geht's</strong></p>
-
     <p>
-        Die WueWW hatte letztes Jahr 176 Veranstaltungen an den acht Veranstaltungstagen. Von vielen kam der Wunsch nach
-        Filtern, um nicht von der schieren Masse an Terminen erschlagen zu werden.
-    </p>
-
-    <p>
-        Wir haben uns daher entschieden, euch Kategorien vorzuschlagen und sie entsprechend farblich im Progamm auf der
-        Webseite darzustellen.
-    </p>
-
-    <p>
-        Bitte wähle jetzt die Kategorie aus, die auf dein Event am besten zutrifft. Das wird vielleicht nicht immer zu
+        Bitte wähle die Kategorie aus, die auf dein Event am besten zutrifft. Das wird vielleicht nicht immer zu
         100 Prozent passen. Du hilfst damit aber anderen, einen besseren Überblick zu bekommen und davon profitieren wir
-        alle: Veranstalter und Teilnehmer (m/w/d) und so auch die WueWW. Danke!
+        alle: Veranstalter und Teilnehmer (m/w/d) und so auch die AI WEEK. Danke!
     </p>
 </div>
 
@@ -68,6 +56,14 @@
 {% if is_granted('ROLE_EDITOR') %}
     <button class="btn btn-primary">Speichern</button>
 {% else %}
+    <div class="alert alert-info" role="alert" style="margin-top: 1rem">
+        <p>
+            Wenn du dein Event zur Freigabe gibst, wird es von uns geprüft, einer Jury vorgelegt und ggf.
+            veröffentlicht. Verwende die Funktion <em>Entwurf speichern</em>, wenn du einen Zwischenstand abspeichern
+            möchtest, den du selbst noch einmal bearbeiten möchtest, ehe du ihn zur Freigabe gibst.
+        </p>
+    </div>
+
     <button class="btn btn-light" name="draft">Entwurf speichern</button>
     <button class="btn btn-primary">Speichern und zur Freigabe geben</button>
 {% endif %}

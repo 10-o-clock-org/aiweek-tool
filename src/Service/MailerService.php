@@ -35,7 +35,7 @@ class MailerService
         $message = (new Email())
             ->from(self::FROM_ADDRESS)
             ->to($user->getEmail())
-            ->subject('Deine Registrierung beim WueWW Tool')
+            ->subject('Deine Registrierung beim AI WEEK Tool')
             ->text(
                 $this->twig->render('emails/user_registration.txt.twig', [
                     'user' => $user,
@@ -51,7 +51,7 @@ class MailerService
         $message = (new Email())
             ->from(self::FROM_ADDRESS)
             ->to($user->getEmail())
-            ->subject('WueWW Tool Passwort zurücksetzen')
+            ->subject('AI WEEK Tool Passwort zurücksetzen')
             ->text(
                 $this->twig->render('emails/password_reset.txt.twig', [
                     'user' => $user,
