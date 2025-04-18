@@ -18,15 +18,17 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
         $reporter1 = $this->getReference(UserFixture::REPORTER1_USER_REF, User::class);
 
         $manager->persist($this->createSessionNichtFreigegeben($reporter1));
-        $manager->persist($this->createSessionFreigegeben($reporter1));
+        $manager->persist($this->createSessionFreigegeben($reporter1, 'Freigegebene Session o. Ä.'));
         $manager->persist($this->createSessionFreigegebenUndGeaendert($reporter1));
         $manager->persist($this->createSessionCancelled($reporter1));
 
         /** @var User $reporter2 */
         $reporter2 = $this->getReference(UserFixture::REPORTER2_USER_REF, User::class);
-        $manager->persist($this->createSessionFreigegeben($reporter2));
         $manager->persist($this->createOnlineOnlySessionFreigegeben($reporter2));
-        $manager->persist($this->createSessionFreigegebenWithoutStartDate($reporter2));
+
+        for ($i = 1; $i <= 40; $i ++) {
+            $manager->persist($this->createSessionFreigegeben($reporter2, 'Freigegebene Session ' . $i));
+        }
 
         $manager->flush();
     }
@@ -39,11 +41,10 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
     private function createSessionNichtFreigegeben(User $reporter): Session
     {
         $session = (new Session())
-            ->setStart(new \DateTimeImmutable('2021-10-22 14:00'))
             ->setCancelled(false)
             ->setOrganization($reporter->getOrganizations()->first());
 
-        $session
+        $detail = $session
             ->getDraftDetails()
             ->setTitle('Nicht freigegeben')
             ->setShortDescription('Kurzbeschreibung nicht freigegebener Session')
@@ -58,6 +59,8 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
                     ->setIsAccessible(false)
             )
             ->setLink('http://wueww.de/session/nicht/freigegeben');
+
+        $this->randomizeStartDateTime($detail);
 
         $session->propose();
 
@@ -84,10 +87,11 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
             ->setLink('http://wueww.de/session/online-only');
 
         $session = (new Session())
-            ->setStart(new \DateTimeImmutable('2021-10-23 14:00'))
             ->setCancelled(false)
             ->setOrganization($reporter->getOrganizations()->first())
             ->setDraftDetails($detail);
+
+        $this->randomizeStartDateTime($detail);
 
         $session->propose();
         $session->accept();
@@ -95,10 +99,10 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
         return $session;
     }
 
-    private function createSessionFreigegeben(User $reporter): Session
+    private function createSessionFreigegeben(User $reporter, string $title): Session
     {
         $detail = (new SessionDetail())
-            ->setTitle('Freigegebene Session o. Ä.')
+            ->setTitle($title)
             ->setShortDescription('Kurzbeschreibung einer freigegebenen Session')
             ->setLongDescription('Die freigegebene Session hat natürlich auch eine Langbeschreibung')
             ->setOnlineOnly(false)
@@ -113,41 +117,11 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
             ->setLink('http://wueww.de/session/freigegeben');
 
         $session = (new Session())
-            ->setStart(new \DateTimeImmutable('2021-10-23 14:00'))
             ->setCancelled(false)
             ->setOrganization($reporter->getOrganizations()->first())
             ->setDraftDetails($detail);
 
-        $session->propose();
-        $session->accept();
-
-        return $session;
-    }
-
-    private function createSessionFreigegebenWithoutStartDate(User $reporter): Session
-    {
-        $detail = (new SessionDetail())
-            ->setTitle('Alte Session o. Ä.')
-            ->setShortDescription('Kurzbeschreibung einer alten Session')
-            ->setLongDescription(
-                'Die alte Session hat natürlich auch eine Langbeschreibung, und wartet darauf, dass sie wieder einen Startzeitpunkt bekommt.'
-            )
-            ->setOnlineOnly(false)
-            ->setLocation(
-                (new Location())
-                    ->setName('Freigegeben-Office')
-                    ->setStreetNo('Freigegeben-Straße 17a')
-                    ->setZipcode('97072')
-                    ->setCity('Würzburg')
-                    ->setIsAccessible(false)
-            )
-            ->setLink('http://wueww.de/session/alt');
-
-        $session = (new Session())
-            ->setStart(null)
-            ->setCancelled(false)
-            ->setOrganization($reporter->getOrganizations()->first())
-            ->setDraftDetails($detail);
+        $this->randomizeStartDateTime($detail);
 
         $session->propose();
         $session->accept();
@@ -188,13 +162,18 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
             ->setLink('http://wueww.de/session/freigegeben');
 
         $session = (new Session())
-            ->setStart(new \DateTimeImmutable('2021-10-27 14:00'))
             ->setCancelled(false)
             ->setOrganization($reporter->getOrganizations()->first())
             ->setDraftDetails($detailAccepted);
 
+        $this->randomizeStartDateTime($detailAccepted);
+
         $session->propose();
         $session->accept();
+
+        $detailNewDraft->setStart1($detailAccepted->getStart1());
+        $detailNewDraft->setStart2($detailAccepted->getStart2());
+        $detailNewDraft->setStart3($detailAccepted->getStart3());
 
         $session->setDraftDetails($detailNewDraft);
         $session->propose();
@@ -220,9 +199,10 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
             ->setLink('http://wueww.de/session/freigegeben');
 
         $session = (new Session())
-            ->setStart(new \DateTimeImmutable('2021-10-29 14:00'))
             ->setOrganization($reporter->getOrganizations()->first())
             ->setDraftDetails($detail);
+
+        $this->randomizeStartDateTime($detail);
 
         $session->propose();
         $session->accept();
@@ -230,4 +210,58 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
 
         return $session;
     }
+
+    private function randomizeStartDateTime(SessionDetail $detail)
+    {
+        $detail->setStart1($this->randomizeDateTime());
+        $detail->setStart2($this->randomizeDateTime());
+
+        if (mt_rand(0, 100) < 50) {
+            $detail->setStart3($this->randomizeDateTime());
+        }
+    }
+
+    private function randomizeDateTime(): \DateTimeImmutable
+    {
+        // Base date range between 2025-06-30 and 2025-07-03
+        $startDate = new \DateTime('2025-06-30');
+        $endDate = new \DateTime('2025-07-03');
+
+        // Random day within range
+        $dayDiff = $endDate->diff($startDate)->days;
+        $randomDays = random_int(0, $dayDiff);
+        $date = clone $startDate;
+        $date->modify("+$randomDays days");
+
+        // Time constraints (9:30 - 20:00)
+        // Evening hours more likely (15:00-20:00 has higher probability)
+        $hourDistribution = [];
+        // Morning/afternoon (9-15)
+        for ($h = 9; $h < 15; $h++) {
+            $hourDistribution[] = $h;
+        }
+        // Evening (15-20) - add multiple times to increase probability
+        for ($h = 15; $h < 20; $h++) {
+            $hourDistribution[] = $h;
+            $hourDistribution[] = $h; // add twice to make evening more likely
+        }
+
+        // Select random hour from weighted distribution
+        $hour = $hourDistribution[array_rand($hourDistribution)];
+
+        // First hour needs to be at least 9:30
+        if ($hour === 9) {
+            $minutes = 30;
+        } else {
+            // Only 00, 15, 30, 45 with 00 and 30 being three times more likely
+            $minutesDistribution = [0, 0, 0, 15, 30, 30, 30, 45];
+            $minutes = $minutesDistribution[array_rand($minutesDistribution)];
+        }
+
+        $date->setTime($hour, $minutes);
+
+        return \DateTimeImmutable::createFromMutable($date);
+    }
+
+
 }
