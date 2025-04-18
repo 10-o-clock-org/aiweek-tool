@@ -14,9 +14,6 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>Datum</th>
-            <th>Beginn</th>
-            <th>Ende</th>
             <th>Titel</th>
             <th>Freigabe</th>
             {% if is_granted('ROLE_EDITOR') %}
@@ -28,9 +25,6 @@
         <tbody>
         {% for session in sessions %}
             <tr class="{% if session.cancelled %}session-cancelled{% endif %}">
-                <td>{{ session.start ? session.start|date('d.m.Y') : '-' }}</td>
-                <td>{{ session.start ? session.start|date('H:i') : '-' }}</td>
-                <td>{# session.stop ? session.stop|date('H:i') : '-' #}</td>
                 <td>{% if is_granted('ROLE_EDITOR') %}{{ session.proposedDetails.title }}{% else %}{{ session.draftDetails.title }}{% endif %}</td>
                 <td>
                     {% if session.cancelled %}

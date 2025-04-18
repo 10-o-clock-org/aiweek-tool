@@ -8,10 +8,10 @@
 
     <h1>Event</h1>
 
-    {% if session.start is null %}
-        <div class="alert alert-danger" role="alert">
+    {% if session.start is not null %}
+        <div class="alert alert-info" role="alert">
             <p>
-                Aktuell ist kein Beginn-Zeitpunkt erfasst. Das Event wird daher nicht veröffentlicht.
+                Geplanter Beginn des Events ist {{ session.start|date('d.m.Y H:i:s') }}.
             </p>
         </div>
     {% endif %}
@@ -25,12 +25,16 @@
     <table class="table">
         <tbody>
         <tr>
-            <th>Beginn</th>
-            <td>{{ session.start ? session.start|date('d.m.Y H:i:s') : '' }}</td>
+            <th>Wunschtermin</th>
+            <td>{{ detail.start1 ? detail.start1|date('d.m.Y H:i:s') : '' }}</td>
         </tr>
         <tr>
-            <th>Ende</th>
-            <td>{{ session.stop ? session.stop|date('d.m.Y H:i:s') : '' }}</td>
+            <th>Alternativtermin</th>
+            <td>{{ detail.start2 ? detail.start2|date('d.m.Y H:i:s') : '' }}</td>
+        </tr>
+        <tr>
+            <th>Ersatztermin</th>
+            <td>{{ detail.start3 ? detail.start3|date('d.m.Y H:i:s') : '' }}</td>
         </tr>
         <tr>
             <th>Abgesagt?</th>
