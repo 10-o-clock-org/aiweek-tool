@@ -45,16 +45,44 @@ class SessionController extends AbstractController
     }
 
     /**
+     * @Route("/timetable", name="session_timetable", methods={"GET"})
+     */
+    public function timetable(SessionRepository $sessionRepository): Response
+    {
+        if (!$this->isGranted(User::ROLE_EDITOR)) {
+            throw new AccessDeniedException();
+        }
+
+        $sessions = $sessionRepository->findJuryAcceptedWithDetails();
+
+        $timetableData = array_map(function ($session) {
+            return [
+                'id' => $session->getId(),
+                'title' => $session->getAcceptedDetails()->getTitle(),
+                'start' => $session->getStart()?->format('Y-m-d\\TH:i:sP'),
+                'start1' => $session->getAcceptedDetails()->getStart1()?->format('Y-m-d\\TH:i:sP'),
+                'start2' => $session->getAcceptedDetails()->getStart2()?->format('Y-m-d\\TH:i:sP'),
+                'start3' => $session->getAcceptedDetails()->getStart3()?->format('Y-m-d\\TH:i:sP'),
+                'duration' => $session->getAcceptedDetails()->getDuration(),
+                'onlineOnly' => $session->getAcceptedDetails()->getOnlineOnly(),
+            ];
+        }, $sessions);
+
+        return $this->render('session/timetable.html.twig', ['data' => $timetableData]);
+    }
+
+    /**
      * @Route("/{excludeId}/parallel/{date}/{startStr}/{endStr}", defaults={"endStr"="", "excludeId"=""})
      * @return Response
      */
     public function countParallelSessions(
-        string $excludeId,
-        string $date,
-        string $startStr,
-        string $endStr,
+        string            $excludeId,
+        string            $date,
+        string            $startStr,
+        string            $endStr,
         SessionRepository $sessionRepository
-    ): Response {
+    ): Response
+    {
         $dateFmt = 'Y-m-d H:i';
         $start = \DateTimeImmutable::createFromFormat($dateFmt, $date . ' ' . $startStr);
 
@@ -75,7 +103,7 @@ class SessionController extends AbstractController
             'count' => $sessionRepository->countParallelSession(
                 $start,
                 $end,
-                $excludeId === '-' ? null : (int) $excludeId
+                $excludeId === '-' ? null : (int)$excludeId
             ),
         ]);
     }
@@ -340,10 +368,11 @@ class SessionController extends AbstractController
      * @return Response
      */
     public function toggleHighlight(
-        Request $request,
-        Session $session,
+        Request                  $request,
+        Session                  $session,
         EventDispatcherInterface $eventDispatcher
-    ): Response {
+    ): Response
+    {
         if (!$this->isGranted(User::ROLE_EDITOR)) {
             throw new AccessDeniedException();
         }

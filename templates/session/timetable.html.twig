@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block container %}
+    <h1>Fahrplan</h1>
+
+    <script lang="application/json" id="timetable-data">
+        {{ data|json_encode|raw }}
+    </script>
+
+    <div id="root"></div>
+{% endblock %}
+
+{% block stylesheets %}
+{{ encore_entry_link_tags('app') }}
+<link rel="stylesheet" href="{{ asset('scheduler/index-CKI4SwRA.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+{{ encore_entry_script_tags('app') }}
+    <script src="{{ asset('scheduler/index-BC4grAUR.js') }}"></script>
+{% endblock %}

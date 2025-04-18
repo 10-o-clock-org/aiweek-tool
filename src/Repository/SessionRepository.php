@@ -94,6 +94,19 @@ class SessionRepository extends ServiceEntityRepository
     /**
      * @return Session[]
      */
+    public function findJuryAcceptedWithDetails(): array
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->innerJoin('s.acceptedDetails', 'sad')
+            ->addSelect('sad');
+        // FIXME filter jury accept
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @return Session[]
+     */
     public function findRecentlyApprovedSessions(): array
     {
         return $this->createQueryBuilder('s')

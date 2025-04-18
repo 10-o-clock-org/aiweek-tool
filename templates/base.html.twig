@@ -11,6 +11,7 @@
 
 {{ include('_navbar.html.twig') }}
 
+{% block container %}
 <div class="container">
     {% for label, messages in app.flashes %}
         {% for message in messages %}
@@ -23,6 +24,7 @@
     {% block body %}{% endblock %}
     {{ include('_footer.html.twig') }}
 </div>
+{% endblock %}
 
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
