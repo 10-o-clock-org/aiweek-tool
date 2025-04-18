@@ -5,38 +5,26 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Embeddable()
- */
+#[ORM\Embeddable]
 class Location
 {
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Der Name darf nicht leer sein.", groups={"offline_event"})
-     */
+    #[ORM\Column(type: "string", length: 255)]
+    #[Assert\NotBlank(message: "Der Name darf nicht leer sein.", groups: ["offline_event"])]
     private $name;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Straße und Hausnummer dürfen nicht leer sein.", groups={"offline_event"})
-     */
+    #[ORM\Column(type: "string", length: 255)]
+    #[Assert\NotBlank(message: "Straße und Hausnummer dürfen nicht leer sein.", groups: ["offline_event"])]
     private $streetNo;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Die PLZ darf nicht leer sein", groups={"offline_event"})
-     */
+    #[ORM\Column(type: "string", length: 255)]
+    #[Assert\NotBlank(message: "Die PLZ darf nicht leer sein", groups: ["offline_event"])]
     private $zipcode;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Der Ort darf nicht leer sein", groups={"offline_event"})
-     */
+    #[ORM\Column(type: "string", length: 255)]
+    #[Assert\NotBlank(message: "Der Ort darf nicht leer sein", groups: ["offline_event"])]
     private $city;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: "boolean")]
     private $isAccessible;
 
     public function getName(): ?string

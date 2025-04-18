@@ -7,65 +7,42 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\SessionRepository")
- */
+#[ORM\Entity(repositoryClass: "App\Repository\SessionRepository")]
 class Session
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private $id;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: "datetime", nullable: true)]
     private $start;
 
-    /**
-     * @var boolean
-     * @ORM\Column(type="boolean")
-     */
-    private $cancelled;
+    #[ORM\Column(type: "boolean")]
+    private bool $cancelled;
 
-    /**
-     * @var boolean
-     * @ORM\Column(type="boolean", options={ "default": false })
-     */
-    private $highlight;
+    #[ORM\Column(type: "boolean", options: ["default" => false])]
+    private bool $highlight;
 
-    /**
-     * @var ?SessionDetail
-     * @ORM\OneToOne(targetEntity="App\Entity\SessionDetail", cascade={"persist", "remove"}, orphanRemoval=false)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $draftDetails;
+    #[ORM\OneToOne(targetEntity: SessionDetail::class, cascade: ["persist", "remove"], orphanRemoval: false)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?SessionDetail $draftDetails;
 
-    /**
-     * @var ?SessionDetail
-     * @ORM\OneToOne(targetEntity="App\Entity\SessionDetail", cascade={"persist", "remove"}, orphanRemoval=false)
-     */
-    private $proposedDetails;
+    #[ORM\OneToOne(targetEntity: SessionDetail::class, cascade: ["persist", "remove"], orphanRemoval: false)]
+    private ?SessionDetail $proposedDetails;
 
-    /**
-     * @var ?SessionDetail
-     * @ORM\OneToOne(targetEntity="App\Entity\SessionDetail", cascade={"persist", "remove"}, orphanRemoval=false)
-     */
-    private $acceptedDetails;
+    #[ORM\OneToOne(targetEntity: SessionDetail::class, cascade: ["persist", "remove"], orphanRemoval: false)]
+    private ?SessionDetail $acceptedDetails;
 
-    /**
-     * @var ?Organization
-     * @ORM\ManyToOne(targetEntity="App\Entity\Organization", inversedBy="sessions")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $organization;
+    #[ORM\ManyToOne(targetEntity: Organization::class, inversedBy: "sessions")]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Organization $organization;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: "datetime", nullable: true)]
     private $acceptedAt;
+
+    #[ORM\Column(type: 'string', nullable: false, enumType: SessionStatus::class, options: ['default' => SessionStatus::Created])]
+    private SessionStatus $status = SessionStatus::Created;
 
     public function __construct()
     {
