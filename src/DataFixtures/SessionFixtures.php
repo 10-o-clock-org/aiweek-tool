@@ -24,7 +24,6 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
 
         /** @var User $reporter2 */
         $reporter2 = $this->getReference(UserFixture::REPORTER2_USER_REF, User::class);
-        $manager->persist($this->createOnlineOnlySessionFreigegeben($reporter2));
 
         for ($i = 1; $i <= 40; $i ++) {
             $manager->persist($this->createSessionFreigegeben($reporter2, 'Freigegebene Session ' . $i));
@@ -67,53 +66,26 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
         return $session;
     }
 
-    private function createOnlineOnlySessionFreigegeben(User $reporter): Session
-    {
-        $detail = (new SessionDetail())
-            ->setTitle('Online-Only Session')
-            ->setShortDescription('Kurzbeschreibung einer freigegebenen, online-only Session')
-            ->setLongDescription(
-                'Die freigegebene Session hat natürlich auch eine Langbeschreibung, und hier würden noch Zugangsdaten stehen.  Und vieles Weitere mehr.'
-            )
-            ->setOnlineOnly(true)
-            ->setLocation(
-                (new Location())
-                    ->setName('nix da')
-                    ->setStreetNo('')
-                    ->setZipcode('')
-                    ->setCity('')
-                    ->setIsAccessible(false)
-            )
-            ->setLink('http://wueww.de/session/online-only');
-
-        $session = (new Session())
-            ->setCancelled(false)
-            ->setOrganization($reporter->getOrganizations()->first())
-            ->setDraftDetails($detail);
-
-        $this->randomizeStartDateTime($detail);
-
-        $session->propose();
-        $session->accept();
-
-        return $session;
-    }
-
     private function createSessionFreigegeben(User $reporter, string $title): Session
     {
+        $location = new Location();
+
+        $onlineOnly = mt_rand(0, 100) < 20;
+        if (!$onlineOnly) {
+            $location
+                ->setName('Freigegeben-Office')
+                ->setStreetNo('Freigegeben-Straße 17a')
+                ->setZipcode('97072')
+                ->setCity('Würzburg')
+                ->setIsAccessible(false);
+        }
+
         $detail = (new SessionDetail())
             ->setTitle($title)
             ->setShortDescription('Kurzbeschreibung einer freigegebenen Session')
             ->setLongDescription('Die freigegebene Session hat natürlich auch eine Langbeschreibung')
-            ->setOnlineOnly(false)
-            ->setLocation(
-                (new Location())
-                    ->setName('Freigegeben-Office')
-                    ->setStreetNo('Freigegeben-Straße 17a')
-                    ->setZipcode('97072')
-                    ->setCity('Würzburg')
-                    ->setIsAccessible(false)
-            )
+            ->setOnlineOnly($onlineOnly)
+            ->setLocation($location)
             ->setLink('http://wueww.de/session/freigegeben');
 
         $session = (new Session())

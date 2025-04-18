@@ -8,24 +8,24 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Embeddable]
 class Location
 {
-    #[ORM\Column(type: "string", length: 255)]
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     #[Assert\NotBlank(message: "Der Name darf nicht leer sein.", groups: ["offline_event"])]
     private $name;
 
-    #[ORM\Column(type: "string", length: 255)]
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     #[Assert\NotBlank(message: "Straße und Hausnummer dürfen nicht leer sein.", groups: ["offline_event"])]
     private $streetNo;
 
-    #[ORM\Column(type: "string", length: 255)]
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     #[Assert\NotBlank(message: "Die PLZ darf nicht leer sein", groups: ["offline_event"])]
     private $zipcode;
 
-    #[ORM\Column(type: "string", length: 255)]
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     #[Assert\NotBlank(message: "Der Ort darf nicht leer sein", groups: ["offline_event"])]
     private $city;
 
     #[ORM\Column(type: "boolean")]
-    private $isAccessible;
+    private $isAccessible = false;
 
     public function getName(): ?string
     {
