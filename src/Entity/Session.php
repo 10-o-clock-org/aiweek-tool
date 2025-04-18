@@ -29,10 +29,10 @@ class Session
     private ?SessionDetail $draftDetails;
 
     #[ORM\OneToOne(targetEntity: SessionDetail::class, cascade: ["persist", "remove"], orphanRemoval: false)]
-    private ?SessionDetail $proposedDetails;
+    private ?SessionDetail $proposedDetails = null;
 
     #[ORM\OneToOne(targetEntity: SessionDetail::class, cascade: ["persist", "remove"], orphanRemoval: false)]
-    private ?SessionDetail $acceptedDetails;
+    private ?SessionDetail $acceptedDetails = null;
 
     #[ORM\ManyToOne(targetEntity: Organization::class, inversedBy: "sessions")]
     #[ORM\JoinColumn(nullable: false)]
