@@ -233,6 +233,31 @@ class SessionController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/schedule", name="session_schedule", methods={"POST"})
+     * @param Session $session
+     * @return Response
+     */
+    public function schedule(Session $session, Request $request): Response
+    {
+        if (!$this->isGranted(User::ROLE_EDITOR)) {
+            throw new AccessDeniedException();
+        }
+
+        $data = json_decode($request->getContent(), true);
+        if (!isset($data['start']) || empty($data['start'])) {
+            throw new BadRequestException('Start date is required');
+        }
+
+        $start = new \DateTimeImmutable($data['start']);
+        $session->setStart($start);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->flush();
+
+        return new JsonResponse(['success' => true], Response::HTTP_OK);
+    }
+
+    /**
      * @Route("/{id}/edit", name="session_edit", methods={"GET","POST"})
      * @param Request $request
      * @param Session $session
