@@ -218,7 +218,12 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
 
         if (mt_rand(0, 100) < 50) {
             $detail->setStart3($this->randomizeDateTime());
+        } else {
+            $detail->setStart3(null);
         }
+
+        $durationDistribution = [30, 45, 60, 60, 60, 90, 120];
+        $detail->setDuration($durationDistribution[array_rand($durationDistribution)]);
     }
 
     private function randomizeDateTime(): \DateTimeImmutable
