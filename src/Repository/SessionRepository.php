@@ -98,7 +98,8 @@ class SessionRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('s')
             ->innerJoin('s.acceptedDetails', 'sad')
-            ->addSelect('sad');
+            ->addSelect('sad')
+            ->andWhere('s.cancelled = FALSE');
         // FIXME filter jury accept
 
         return $qb->getQuery()->getResult();
