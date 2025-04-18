@@ -2,62 +2,43 @@
 
 namespace App\Entity;
 
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- */
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     const ROLE_EDITOR = 'ROLE_EDITOR';
     const ROLE_USER_APPROVER = 'ROLE_USER_APPROVER';
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
+    #[ORM\Column(type: "string", length: 180, unique: true)]
     private $email;
 
-    /**
-     * @ORM\Column(type="json")
-     */
+    #[ORM\Column(type: "json")]
     private $roles = [];
 
-    /**
-     * @var string The hashed password
-     * @ORM\Column(type="string")
-     */
-    private $password;
+    #[ORM\Column(type: "string")]
+    private string $password;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Token", mappedBy="owner", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: Token::class, mappedBy: "owner", cascade: ["persist", "remove"], orphanRemoval: true)]
     private $tokens;
 
-    /**
-     * @var boolean
-     * @ORM\Column(type="boolean")
-     */
-    private $registrationComplete;
+    #[ORM\Column(type: "boolean")]
+    private bool $registrationComplete;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Organization", mappedBy="owner", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: Organization::class, mappedBy: "owner", cascade: ["persist", "remove"], orphanRemoval: true)]
     private $organizations;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: "datetime", nullable: true)]
     private $createdAt;
 
     public function __construct()

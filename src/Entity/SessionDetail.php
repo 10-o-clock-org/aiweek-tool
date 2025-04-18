@@ -3,90 +3,57 @@
 namespace App\Entity;
 
 use App\DTO\SessionWithDetail;
+use App\Repository\SessionDetailRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\SessionDetailRepository")
- */
+#[ORM\Entity(repositoryClass: SessionDetailRepository::class)]
 class SessionDetail
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private $id;
 
-    /**
-     * @var ?\DateTimeInterface
-     * @Assert\NotBlank(message="Ein Startzeitpunkt muss eingegeben werden.")
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $start1;
+    #[Assert\NotBlank(message: "Ein Startzeitpunkt muss eingegeben werden.")]
+    #[ORM\Column(type: "datetime", nullable: true)]
+    private ?\DateTimeInterface $start1;
 
-    /**
-     * @var ?\DateTimeInterface
-     * @Assert\NotBlank(message="Ein Alternativtermin muss eingegeben werden.")
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $start2;
+    #[Assert\NotBlank(message: "Ein Alternativtermin muss eingegeben werden.")]
+    #[ORM\Column(type: "datetime", nullable: true)]
+    private ?\DateTimeInterface $start2;
 
-    /**
-     * @var ?\DateTimeInterface
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $start3;
+    #[ORM\Column(type: "datetime", nullable: true)]
+    private ?\DateTimeInterface $start3;
 
-    /**
-     * @var int|null
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $duration;
+    #[ORM\Column(type: "integer", nullable: true)]
+    private ?int $duration;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: "string", length: 255)]
     private $title;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: "text", nullable: true)]
     private $shortDescription;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
+    #[ORM\Column(type: "text", nullable: true)]
     private $longDescription;
 
-    /**
-     * @ORM\Embedded(class = "Location")
-     */
+    #[ORM\Embedded(class: Location::class)]
     private $location;
 
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
+    #[ORM\Column(type: "float", nullable: true)]
     private $locationLat;
 
-    /**
-     * @ORM\Column(type="float", nullable=true)
-     */
+    #[ORM\Column(type: "float", nullable: true)]
     private $locationLng;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private $link;
 
-    /**
-     * @ORM\Column(type="boolean", options={"default": false})
-     */
+    #[ORM\Column(type: "boolean", options: ["default" => false])]
     private $onlineOnly;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Channel::class)
-     */
+    #[ORM\ManyToOne(targetEntity: Channel::class)]
     private $channel;
 
     public function __construct()

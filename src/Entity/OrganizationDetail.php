@@ -2,84 +2,60 @@
 
 namespace App\Entity;
 
+use App\Repository\OrganizationDetailRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\OrganizationDetailRepository")
- */
+#[ORM\Entity(repositoryClass: OrganizationDetailRepository::class)]
 class OrganizationDetail
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Der Name darf nicht leer sein.")
-     */
+    #[ORM\Column(type: "string", length: 255)]
+    #[Assert\NotBlank(message: "Der Name darf nicht leer sein.")]
     private $title;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Der Ansprechpartner darf nicht leer sein.")
-     */
+    #[ORM\Column(type: "string", length: 255)]
+    #[Assert\NotBlank(message: "Der Ansprechpartner darf nicht leer sein.")]
     private $contactName;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     * @Assert\Length(max = 500, maxMessage = "Die Beschreibung soll max. 500 Zeichen lang sein, da sie für Social Media Zwecke geeignet sein soll")     */
+    #[ORM\Column(type: "text", nullable: true)]
+    #[Assert\Length(max: 500, maxMessage: "Die Beschreibung soll max. 500 Zeichen lang sein, da sie für Social Media Zwecke geeignet sein soll")]
     private $description;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Url(message = "Die erfasste URL ist ungültig.")
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Assert\Url(message: "Die erfasste URL ist ungültig.")]
     private $link;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Url(message = "Die erfasste URL ist ungültig.")
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Assert\Url(message: "Die erfasste URL ist ungültig.")]
     private $jobsUrl;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Url(message = "Die erfasste URL ist ungültig.")
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Assert\Url(message: "Die erfasste URL ist ungültig.")]
     private $facebookUrl;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Url(message = "Die erfasste URL ist ungültig.")
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Assert\Url(message: "Die erfasste URL ist ungültig.")]
     private $twitterUrl;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Url(message = "Die erfasste URL ist ungültig.")
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Assert\Url(message: "Die erfasste URL ist ungültig.")]
     private $youtubeUrl;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Url(message = "Die erfasste URL ist ungültig.")
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Assert\Url(message: "Die erfasste URL ist ungültig.")]
     private $instagramUrl;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Url(message = "Die erfasste URL ist ungültig.")
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Assert\Url(message: "Die erfasste URL ist ungültig.")]
     private $linkedinUrl;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @Assert\Url(message = "Die erfasste URL ist ungültig.")
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Assert\Url(message: "Die erfasste URL ist ungültig.")]
     private $fediverseUrl;
 
     public function getId(): ?int

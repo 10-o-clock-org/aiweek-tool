@@ -2,53 +2,36 @@
 
 namespace App\Entity;
 
+use App\Repository\OrganizationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\OrganizationRepository")
- */
+#[ORM\Entity(repositoryClass: OrganizationRepository::class)]
 class Organization
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
     private $id;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Session", mappedBy="organization", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
+    #[ORM\OneToMany(targetEntity: Session::class, mappedBy: "organization", cascade: ["persist", "remove"], orphanRemoval: true)]
     private $sessions;
 
-    /**
-     * @var OrganizationDetail|null
-     * @ORM\OneToOne(targetEntity="App\Entity\OrganizationDetail", cascade={"persist", "remove"}, orphanRemoval=false)
-     */
-    private $proposedOrganizationDetails;
+    #[ORM\OneToOne(targetEntity: OrganizationDetail::class, cascade: ["persist", "remove"], orphanRemoval: false)]
+    private ?OrganizationDetail $proposedOrganizationDetails;
 
-    /**
-     * @var OrganizationDetail|null
-     * @ORM\OneToOne(targetEntity="App\Entity\OrganizationDetail", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
-    private $acceptedOrganizationDetails;
+    #[ORM\OneToOne(targetEntity: OrganizationDetail::class, cascade: ["persist", "remove"], orphanRemoval: true)]
+    private ?OrganizationDetail $acceptedOrganizationDetails;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="organizations")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "organizations")]
+    #[ORM\JoinColumn(nullable: false)]
     private $owner;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private $logoFileName;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: "boolean")]
     private $sendBatchMailNotification = false;
 
     public function __construct()
