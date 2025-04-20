@@ -34,6 +34,9 @@ class Organization
     #[ORM\Column(type: "boolean")]
     private $sendBatchMailNotification = false;
 
+    #[ORM\Column(type: "boolean", options: ["default" => false])]
+    private $goldSponsor = false;
+
     public function __construct()
     {
         $this->sessions = new ArrayCollection();
@@ -169,4 +172,16 @@ class Organization
 
         return $this;
     }
+
+    public function isGoldSponsor(): bool
+    {
+        return $this->goldSponsor;
+    }
+
+    public function setGoldSponsor(bool $goldSponsor): Organization
+    {
+        $this->goldSponsor = $goldSponsor;
+        return $this;
+    }
+
 }

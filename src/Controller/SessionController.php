@@ -65,6 +65,7 @@ class SessionController extends AbstractController
                 'start3' => $session->getAcceptedDetails()->getStart3()?->format('Y-m-d\\TH:i:sP'),
                 'duration' => $session->getAcceptedDetails()->getDuration(),
                 'onlineOnly' => $session->getAcceptedDetails()->getOnlineOnly(),
+                'goldSponsor' => $session->getOrganization()->isGoldSponsor(),
             ];
         }, $sessions);
 

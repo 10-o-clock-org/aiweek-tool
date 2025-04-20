@@ -286,6 +286,29 @@ class OrganizationController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/toggleGoldSponsor", name="organization_toggle_gold_sponsor", methods={"POST"})
+     * @param Request $request
+     * @param Organization $organization
+     * @return Response
+     */
+    public function toggle(Request $request, Organization $organization): Response
+    {
+        if (!$this->isGranted(User::ROLE_EDITOR)) {
+            throw new AccessDeniedException();
+        }
+
+        if ($this->isCsrfTokenValid('toggle_gold_sponsor' . $organization->getId(), $request->request->get('_token'))) {
+            $organization->setGoldSponsor(!$organization->isGoldSponsor());
+            $this->addFlash('success', 'Die Gold-Sponsor-Einstellung wurde geändert.');
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('organization_index');
+    }
+
+    /**
      * @Route("/{id}/accept", name="organization_accept", methods={"POST"})
      * @param Request $request
      * @param Organization $organization
