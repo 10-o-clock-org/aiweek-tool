@@ -109,29 +109,6 @@ class SessionRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    /**
-     * @return Session[]
-     */
-    public function findRecentlyApprovedSessions(): array
-    {
-        return $this->createQueryBuilder('s')
-            ->innerJoin('s.acceptedDetails', 'sad')
-            ->addSelect('sad')
-            ->innerJoin('s.organization', 'o')
-            ->addSelect('o')
-            ->innerJoin('o.acceptedOrganizationDetails', 'oad')
-            ->addSelect('oad')
-            ->andWhere('s.acceptedDetails IS NOT NULL')
-            ->andWhere('o.acceptedOrganizationDetails IS NOT NULL')
-            ->andWhere('s.acceptedAt IS NOT NULL')
-            ->andWhere('s.start > CURRENT_TIMESTAMP()')
-            ->andWhere('s.cancelled = FALSE')
-            ->orderBy('s.acceptedAt', 'DESC')
-            ->setMaxResults(20)
-            ->getQuery()
-            ->getResult();
-    }
-
     public function countSessions($onlineOnly = null, bool $cancelled = false)
     {
         $qb = $this->createQueryBuilder('s')
