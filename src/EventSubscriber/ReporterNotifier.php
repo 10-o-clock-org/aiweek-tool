@@ -25,13 +25,12 @@ class ReporterNotifier implements EventSubscriberInterface
 
     public function onSessionStatusChanged(SessionStatusChangedEvent $event)
     {
-        if ($event->getOldStatus() === null && $event->getNewStatus() === SessionStatus::Created) {
+        if (($event->getOldStatus() === null || $event->getOldStatus() === SessionStatus::Draft)
+            && $event->getNewStatus() === SessionStatus::Created) {
             $this->mailerService->sendReporterNotification($event->getSession(), 'Danke für deine Einreichung', 'created');
-        }
-        elseif ($event->getOldStatus() === SessionStatus::Created && $event->getNewStatus() === SessionStatus::ModeratorApproved) {
+        } elseif ($event->getOldStatus() === SessionStatus::Created && $event->getNewStatus() === SessionStatus::ModeratorApproved) {
             $this->mailerService->sendReporterNotification($event->getSession(), 'Danke für deinen Event-Vorschlag', 'moderator_approved');
-        }
-        elseif ($event->getOldStatus() === SessionStatus::JuryApproved && $event->getNewStatus() === SessionStatus::Scheduled) {
+        } elseif ($event->getOldStatus() === SessionStatus::JuryApproved && $event->getNewStatus() === SessionStatus::Scheduled) {
             $this->mailerService->sendReporterNotification($event->getSession(), 'Dein Event wurde angenommen', 'scheduled');
         }
     }

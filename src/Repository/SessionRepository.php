@@ -195,4 +195,25 @@ class SessionRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getSingleScalarResult();
     }
+
+    /**
+     * @return Session[]
+     */
+    public function findSessionsWithDueDraftNotifications(): array
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->select('s')
+            ->andWhere('s.draftNotificationDueDate IS NOT NULL')
+            ->andWhere('s.proposedDetails IS NULL')
+            ->andWhere('s.draftNotificationDueDate <= :now')
+            ->setParameter('now', new \DateTime());
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function flush()
+    {
+        $this->_em->flush();
+    }
+
 }

@@ -139,7 +139,9 @@ class SessionController extends AbstractController
                 throw new AccessDeniedException();
             }
 
-            if (!$isDraft) {
+            if ($isDraft) {
+                $session->scheduleDraftNotification();
+            } else {
                 $session->propose();
             }
 
@@ -286,7 +288,9 @@ class SessionController extends AbstractController
             $session->applyDetails($sessionWithDetail);
             $isDraft = $request->request->has('draft');
 
-            if (!$isDraft) {
+            if ($isDraft) {
+                $session->scheduleDraftNotification();
+            } else {
                 $session->propose();
             }
 

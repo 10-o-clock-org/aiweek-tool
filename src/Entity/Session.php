@@ -8,6 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: "App\Repository\SessionRepository")]
 class Session
 {
+    const DRAFT_NOTIFICATION_DELAY = 'P3D';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: "integer")]
@@ -40,7 +42,10 @@ class Session
     private $acceptedAt;
 
     #[ORM\Column(type: 'string', nullable: false, enumType: SessionStatus::class, options: ['default' => SessionStatus::Created])]
-    private SessionStatus $status = SessionStatus::Created;
+    private SessionStatus $status = SessionStatus::Draft;
+
+    #[ORM\Column(type: "datetime", nullable: true)]
+    private ?\DateTimeInterface $draftNotificationDueDate = null;
 
     public function __construct()
     {
@@ -202,6 +207,11 @@ class Session
     public function propose()
     {
         $this->setProposedDetails($this->getDraftDetails());
+        $this->setDraftNotificationDueDate(null);
+
+        if ($this->getStatus() === SessionStatus::Draft) {
+            $this->setStatus(SessionStatus::Created);
+        }
     }
 
     public function accept()
@@ -210,7 +220,6 @@ class Session
 
         if ($this->getStatus() === SessionStatus::Created) {
             $this->setStatus(SessionStatus::ModeratorApproved);
-            // TODO send mail
         }
     }
 
@@ -249,5 +258,31 @@ class Session
         return $this;
     }
 
+    public function getDraftNotificationDueDate(): ?\DateTimeInterface
+    {
+        return $this->draftNotificationDueDate;
+    }
+
+    public function setDraftNotificationDueDate(?\DateTimeInterface $draftNotificationDueDate): Session
+    {
+        $this->draftNotificationDueDate = $draftNotificationDueDate;
+        return $this;
+    }
+
+    public function scheduleDraftNotification()
+    {
+        $dueDate = new \DateTime();
+        $dueDate->add(new \DateInterval(self::DRAFT_NOTIFICATION_DELAY));
+
+        // If due date falls on weekend (6=Saturday, 0=Sunday), move to next Monday
+        $weekday = (int)$dueDate->format('w');
+        if ($weekday === 6) {
+            $dueDate->modify('+2 days'); // Move from Saturday to Monday
+        } elseif ($weekday === 0) {
+            $dueDate->modify('+1 day');  // Move from Sunday to Monday
+        }
+
+        $this->setDraftNotificationDueDate($dueDate);
+    }
 
 }
