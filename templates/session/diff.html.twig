@@ -8,23 +8,23 @@
 
     <h1>Änderungen am Event</h1>
 
-    {% if session.start is null %}
-        <div class="alert alert-danger" role="alert">
-            <p>
-                Aktuell ist kein Beginn-Zeitpunkt erfasst. Das Event wird daher nicht veröffentlicht.
-            </p>
-        </div>
-    {% endif %}
-
     <table class="table highlight-diff">
         <tbody>
         <tr>
-            <th>Beginn</th>
-            <td>{{ session.start ? session.start|date('d.m.Y H:i:s') : '' }}</td>
+            <th>Wunschtermin</th>
+            <td>{{ (session.proposedDetails.start1 ? session.proposedDetails.start1|date('d.m.Y H:i:s') : '') | diff(session.acceptedDetails.start1 ? session.acceptedDetails.start1|date('d.m.Y H:i:s') : '') }}</td>
         </tr>
         <tr>
-            <th>Ende</th>
-            <td>{{ session.stop ? session.stop|date('d.m.Y H:i:s') : '' }}</td>
+            <th>Alternativtermin</th>
+            <td>{{ (session.proposedDetails.start2 ? session.proposedDetails.start2|date('d.m.Y H:i:s') : '') | diff(session.acceptedDetails.start2 ? session.acceptedDetails.start2|date('d.m.Y H:i:s') : '') }}</td>
+        </tr>
+        <tr>
+            <th>Ersatztermin</th>
+            <td>{{ (session.proposedDetails.start3 ? session.proposedDetails.start3|date('d.m.Y H:i:s') : '') | diff(session.acceptedDetails.start3 ? session.acceptedDetails.start3|date('d.m.Y H:i:s') : '') }}</td>
+        </tr>
+        <tr>
+            <th>Voraussichtliche Dauer</th>
+            <td>{{ session.proposedDetails.duration | diff(session.acceptedDetails.duration) }}</td>
         </tr>
         <tr>
             <th>Abgesagt?</th>

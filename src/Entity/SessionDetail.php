@@ -226,7 +226,11 @@ class SessionDetail
 
     public function differs(SessionWithDetail $sessionWithDetail): bool
     {
-        return $this->getOnlineOnly() !== $sessionWithDetail->getOnlineOnly() ||
+        return $this->getStart1() !== $sessionWithDetail->getStart1() ||
+            $this->getStart2() !== $sessionWithDetail->getStart2() ||
+            $this->getStart3() !== $sessionWithDetail->getStart3() ||
+            $this->getDuration() !== $sessionWithDetail->getDuration() ||
+            $this->getOnlineOnly() !== $sessionWithDetail->getOnlineOnly() ||
             $this->getTitle() !== $sessionWithDetail->getTitle() ||
             $this->getShortDescription() !== $sessionWithDetail->getShortDescription() ||
             $this->getLongDescription() !== $sessionWithDetail->getLongDescription() ||

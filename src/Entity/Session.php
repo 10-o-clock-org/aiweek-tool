@@ -183,16 +183,6 @@ class Session
 
     public function applyDetails(SessionWithDetail $sessionWithDetail): self
     {
-        if (
-            $this->getAcceptedDetails() !== null &&
-            $this->getAcceptedDetails()->differs($sessionWithDetail)
-        ) {
-            // If user re-uses an existing, already accepted start=null session, and also updates the details,
-            // then re-trigger the editing process.
-            $this->setDraftDetails(new SessionDetail());
-            $this->setAcceptedDetails(null);
-        }
-
         $this->setOrganization($sessionWithDetail->getOrganization());
 
         if (!$this->getDraftDetails()->differs($sessionWithDetail)) {
