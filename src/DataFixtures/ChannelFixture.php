@@ -8,29 +8,29 @@ use Doctrine\Persistence\ObjectManager;
 
 class ChannelFixture extends Fixture
 {
+    const CHANNEL_NAMES = [
+        'Tech & Science',
+        'Digitale Gesellschaft & Nachhaltigkeit',
+        'Business & New Work',
+        'Gründen/Start-up',
+        'Kultur',
+];
+
     public function load(ObjectManager $manager): void
     {
-        $digiGes = new Channel();
-        $digiGes->setName("Digitale Gesellschaft");
-        $digiGes->setSort(10);
-        $manager->persist($digiGes);
+        $sort = 10;
 
-        $science = new Channel();
-        $science->setName("Science & Technology");
-        $science->setSort(20);
-        $manager->persist($science);
+        foreach (self::CHANNEL_NAMES as $channelName) {
+            $channel = new Channel();
+            $channel->setName($channelName);
+            $channel->setSort($sort);
+            $manager->persist($channel);
 
-        $business = new Channel();
-        $business->setName("Business");
-        $business->setSort(30);
-        $manager->persist($business);
+            $this->addReference($channelName, $channel);
 
-        $sustainability = new Channel();
-        $sustainability->setName("Nachhaltigkeit");
-        $sustainability->setSort(40);
-        $manager->persist($sustainability);
+            $sort += 10;
+        }
 
         $manager->flush();
-
     }
 }

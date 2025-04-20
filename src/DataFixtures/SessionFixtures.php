@@ -2,11 +2,13 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Channel;
 use App\Entity\Location;
 use App\Entity\Session;
 use App\Entity\SessionDetail;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
@@ -34,7 +36,7 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
 
     public function getDependencies(): array
     {
-        return [UserFixture::class];
+        return [UserFixture::class, ChannelFixture::class];
     }
 
     private function createSessionNichtFreigegeben(User $reporter): Session
@@ -60,6 +62,7 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
             ->setLink('http://wueww.de/session/nicht/freigegeben');
 
         $this->randomizeStartDateTime($detail);
+        $this->randomizeChannel($detail);
 
         $session->propose();
 
@@ -94,6 +97,7 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
             ->setDraftDetails($detail);
 
         $this->randomizeStartDateTime($detail);
+        $this->randomizeChannel($detail);
 
         $session->propose();
         $session->accept();
@@ -139,13 +143,13 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
             ->setDraftDetails($detailAccepted);
 
         $this->randomizeStartDateTime($detailAccepted);
+        $this->randomizeChannel($detailAccepted);
 
         $session->propose();
         $session->accept();
 
-        $detailNewDraft->setStart1($detailAccepted->getStart1());
-        $detailNewDraft->setStart2($detailAccepted->getStart2());
-        $detailNewDraft->setStart3($detailAccepted->getStart3());
+        $this->randomizeStartDateTime($detailNewDraft);
+        $this->randomizeChannel($detailNewDraft);
 
         $session->setDraftDetails($detailNewDraft);
         $session->propose();
@@ -175,6 +179,7 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
             ->setDraftDetails($detail);
 
         $this->randomizeStartDateTime($detail);
+        $this->randomizeChannel($detail);
 
         $session->propose();
         $session->accept();
@@ -238,6 +243,14 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
         $date->setTime($hour, $minutes);
 
         return \DateTimeImmutable::createFromMutable($date);
+    }
+
+    private function randomizeChannel(SessionDetail $detail)
+    {
+        $channelName = ChannelFixture::CHANNEL_NAMES[array_rand(ChannelFixture::CHANNEL_NAMES)];
+        $channel = $this->getReference($channelName, Channel::class);
+
+        $detail->setChannel($channel);
     }
 
 
