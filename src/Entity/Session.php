@@ -140,7 +140,7 @@ class Session
     public function isWaitJury(): bool
     {
         return !$this->cancelled
-            && $this->status == SessionStatus::ModeratorApproved
+            && $this->status === SessionStatus::ModeratorApproved
             && $this->acceptedDetails !== null;
     }
 

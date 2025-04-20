@@ -30,8 +30,12 @@
             <th>Abgesagt?</th>
             <td>{{ session.cancelled ? 'Ja' : 'Nein' }}</td>
         </tr>
-        </tbody>
-        <tbody>
+        <tr>
+            <th>Kategorie</th>
+            <td>
+                {{ (session.proposedDetails.channel ? session.proposedDetails.channel.name : '-') | diff(session.acceptedDetails.channel ? session.acceptedDetails.channel.name : '-') }}
+            </td>
+        </tr>
         <tr>
             <th>Titel</th>
             <td>{{ session.proposedDetails.title | diff(session.acceptedDetails.title) }}</td>
