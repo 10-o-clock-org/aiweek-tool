@@ -116,4 +116,18 @@ class MailerService
             ->text($this->twig->render('emails/batch_mail_notification.txt.twig', ['addrs' => $mails]));
         $this->mailer->send($message);
     }
+
+    public function sendReporterNotification(Session $session, string $subject, string $templateName)
+    {
+        $message = (new Email())
+            ->from(self::FROM_ADDRESS)
+            ->to($session->getOrganization()->getOwner()->getEmail())
+            ->subject($subject)
+            ->text(
+                $this->twig->render(\sprintf('emails/reporter/%s.txt.twig', $templateName), [
+                    'session' => $session,
+                ])
+            );
+        $this->mailer->send($message);
+    }
 }

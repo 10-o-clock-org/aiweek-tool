@@ -17,14 +17,14 @@ class SessionDetail
 
     #[Assert\NotBlank(message: "Ein Startzeitpunkt muss eingegeben werden.")]
     #[ORM\Column(type: "datetime", nullable: true)]
-    private ?\DateTimeInterface $start1;
+    private ?\DateTimeInterface $start1 = null;
 
     #[Assert\NotBlank(message: "Ein Alternativtermin muss eingegeben werden.")]
     #[ORM\Column(type: "datetime", nullable: true)]
-    private ?\DateTimeInterface $start2;
+    private ?\DateTimeInterface $start2 = null;
 
     #[ORM\Column(type: "datetime", nullable: true)]
-    private ?\DateTimeInterface $start3;
+    private ?\DateTimeInterface $start3 = null;
 
     #[ORM\Column(type: "integer", nullable: true)]
     private ?int $duration;
