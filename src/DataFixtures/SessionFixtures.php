@@ -199,7 +199,7 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
             $detail->setStart3(null);
         }
 
-        $durationDistribution = [30, 45, 60, 60, 60, 90, 120];
+        $durationDistribution = [30, 60, 60, 60, 120];
         $detail->setDuration($durationDistribution[array_rand($durationDistribution)]);
     }
 
