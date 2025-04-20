@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\DTO\SessionWithDetail;
 use App\Entity\Organization;
 use App\Entity\Session;
+use App\Entity\SessionStatus;
 use App\Entity\User;
 use App\Event\SessionCancelledEvent;
 use App\Event\SessionModifiedEvent;
@@ -244,6 +245,10 @@ class SessionController extends AbstractController
             throw new AccessDeniedException();
         }
 
+        if ($session->getStatus() !== SessionStatus::JuryApproved && $session->getStatus() !== SessionStatus::Scheduled) {
+            throw new \LogicException('Session not approved by jury');
+        }
+
         $data = json_decode($request->getContent(), true);
         if (!isset($data['start']) || empty($data['start'])) {
             throw new BadRequestException('Start date is required');
@@ -251,6 +256,7 @@ class SessionController extends AbstractController
 
         $start = new \DateTimeImmutable($data['start']);
         $session->setStart($start);
+        $session->setStatus(SessionStatus::Scheduled);
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->flush();
@@ -347,6 +353,7 @@ class SessionController extends AbstractController
 
         if ($this->isCsrfTokenValid('remove_approval' . $session->getId(), $request->request->get('_token'))) {
             $session->setAcceptedDetails(null)->setAcceptedAt(null);
+            $session->setStatus(SessionStatus::Created);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
@@ -432,6 +439,58 @@ class SessionController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Das Event wurde freigegeben.');
+        }
+
+        return $this->redirectToRoute('session_index');
+    }
+
+    /**
+     * @Route("/{id}/reject", name="session_reject", methods={"POST"})
+     * @param Request $request
+     * @param Session $session
+     * @return Response
+     */
+    public function reject(Request $request, Session $session): Response
+    {
+        if (!$this->isGranted(User::ROLE_EDITOR)) {
+            throw new AccessDeniedException();
+        }
+
+        if ($this->isCsrfTokenValid('reject' . $session->getId(), $request->request->get('_token'))) {
+            $session->setStatus(SessionStatus::Rejected);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Das Event wurde zurückgewiesen.');
+        }
+
+        return $this->redirectToRoute('session_index');
+    }
+
+    /**
+     * @Route("/{id}/jury_accept", name="session_jury_accept", methods={"POST"})
+     * @param Request $request
+     * @param Session $session
+     * @return Response
+     */
+    public function juryAccept(Request $request, Session $session): Response
+    {
+        if (!$this->isGranted(User::ROLE_EDITOR)) {
+            throw new AccessDeniedException();
+        }
+
+        if ($session->getStatus() !== SessionStatus::ModeratorApproved) {
+            throw new \LogicException('Session not approved by moderator');
+        }
+
+        if ($this->isCsrfTokenValid('juryAccept' . $session->getId(), $request->request->get('_token'))) {
+            $session->setStatus(SessionStatus::JuryApproved);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Das Event wurde von der Jury bestätigt.');
         }
 
         return $this->redirectToRoute('session_index');

@@ -132,6 +132,18 @@ class Session
         return $this->acceptedDetails === $this->proposedDetails && $this->acceptedDetails !== null;
     }
 
+    public function isRejected(): bool
+    {
+        return $this->status == SessionStatus::Rejected;
+    }
+
+    public function isWaitJury(): bool
+    {
+        return !$this->cancelled
+            && $this->status == SessionStatus::ModeratorApproved
+            && $this->acceptedDetails !== null;
+    }
+
     public function isAcceptedAndChanged(): bool
     {
         return $this->acceptedDetails !== null && $this->acceptedDetails !== $this->proposedDetails;
@@ -207,6 +219,11 @@ class Session
     public function accept()
     {
         $this->setAcceptedDetails($this->getProposedDetails())->setAcceptedAt(new \DateTimeImmutable('now'));
+
+        if ($this->getStatus() === SessionStatus::Created) {
+            $this->setStatus(SessionStatus::ModeratorApproved);
+            // TODO send mail
+        }
     }
 
     public function getOrganization(): ?Organization
@@ -232,4 +249,17 @@ class Session
 
         return $this;
     }
+
+    public function getStatus(): SessionStatus
+    {
+        return $this->status;
+    }
+
+    public function setStatus(SessionStatus $status): Session
+    {
+        $this->status = $status;
+        return $this;
+    }
+
+
 }

@@ -28,10 +28,14 @@
                 <td>{% if is_granted('ROLE_EDITOR') %}{{ session.proposedDetails.title }}{% else %}{{ session.draftDetails.title }}{% endif %}</td>
                 <td>
                     {% if session.cancelled %}
+                    {% elseif session.rejected %}
+                        <i class="fa fa-times" title="zurückgewiesen"></i>
+                    {% elseif session.waitJury %}
+                        <i class="fa fa-gavel" title="warten auf Jury"></i>
                     {% elseif session.accepted %}
                         <i class="fa fa-check" title="freigegeben"></i>
                     {% elseif session.proposed %}
-                        <i class="fa fa-hourglass-2" title="warten auf Freigabe"></i>
+                        <i class="fa fa-hourglass-2" title="warten auf Moderation"></i>
                     {% else %}
                         <i class="fa fa-pencil" title="Entwurf"></i>
                     {% endif %}

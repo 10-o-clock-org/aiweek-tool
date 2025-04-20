@@ -128,9 +128,13 @@
         </table>
     {% endif %}
 
-    {% if session.accepted %}
+    {% if session.rejected %}
+        <div class="alert alert-danger" role="alert">
+            Dieses Event wurde zurückgewiesen.
+        </div>
+    {% elseif session.accepted %}
         <div class="alert alert-success" role="alert">
-            Dieses Event ist bereits freigegeben.
+            Dieses Event ist bereits moderiert.
         </div>
 
         {% if session.hasDraft %}
@@ -140,18 +144,41 @@
         {% endif %}
     {% elseif session.proposed %}
         <div class="alert alert-info clearfix" role="alert">
-            Dieses Event wurde {% if session.acceptedDetails %}(in dieser Version){% endif %} bisher nicht freigegeben.
+            Dieses Event wurde {% if session.acceptedDetails %}(in dieser Version){% endif %} bisher nicht moderiert.
 
             {% if is_granted('ROLE_EDITOR') %}
                 <form class="inline pull-right" method="post" action="{{ path('session_accept', {'id': session.id}) }}">
                     <input type="hidden" name="_token" value="{{ csrf_token('accept' ~ session.id) }}">
                     <button class="btn btn-primary"><i class="fa fa-check"></i> Event freigeben</button>
                 </form>
+
+                <form class="inline pull-right mr-2" method="post" action="{{ path('session_reject', {'id': session.id}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('reject' ~ session.id) }}">
+                    <button class="btn btn-danger"><i class="fa fa-check"></i> Event zurückweisen</button>
+                </form>
             {% endif %}
         </div>
     {% else %}
         <div class="alert alert-info" role="alert">
             Dieses Event wurde bisher nicht zur Freigabe eingereicht.
+        </div>
+    {% endif %}
+
+    {% if session.waitJury %}
+        <div class="alert alert-info clearfix" role="alert">
+            Dieses Event wartet auf Freigabe durch die Jury.
+
+            {% if is_granted('ROLE_EDITOR') %}
+                <form class="inline pull-right" method="post" action="{{ path('session_jury_accept', {'id': session.id}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('juryAccept' ~ session.id) }}">
+                    <button class="btn btn-primary"><i class="fa fa-check"></i> Event bestätigen</button>
+                </form>
+
+                <form class="inline pull-right mr-2" method="post" action="{{ path('session_reject', {'id': session.id}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('reject' ~ session.id) }}">
+                    <button class="btn btn-danger"><i class="fa fa-check"></i> Event zurückweisen</button>
+                </form>
+            {% endif %}
         </div>
     {% endif %}
 

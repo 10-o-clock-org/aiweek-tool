@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Session;
+use App\Entity\SessionStatus;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -101,8 +102,9 @@ class SessionRepository extends ServiceEntityRepository
             ->addSelect('sad')
             ->innerJoin('s.organization', 'o')
             ->addSelect('o')
-            ->andWhere('s.cancelled = FALSE');
-        // FIXME filter jury accept
+            ->andWhere('s.cancelled = FALSE')
+            ->andWhere('s.status IN (:status)')
+            ->setParameter('status', [SessionStatus::JuryApproved, SessionStatus::Scheduled]);
 
         return $qb->getQuery()->getResult();
     }
