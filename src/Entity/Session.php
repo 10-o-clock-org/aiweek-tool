@@ -135,6 +135,11 @@ class Session
         return $this->acceptedDetails === $this->proposedDetails && $this->acceptedDetails !== null;
     }
 
+    public function isScheduled(): bool
+    {
+        return !$this->cancelled && $this->status === SessionStatus::Scheduled;
+    }
+
     public function isRejected(): bool
     {
         return $this->status == SessionStatus::Rejected;

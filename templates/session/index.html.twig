@@ -6,8 +6,9 @@
     <h1>Eventliste</h1>
 
     {% if is_granted('ROLE_EDITOR') %}
-        Filter: <a href="?">alle</a> | <a href="?has_changes">nicht freigegebene Änderungen</a> | <a
-            href="?not_approved">ohne Freigabe</a>
+        Filter: <a href="?">alle</a> | <a href="?has_changes">nicht freigegebene Änderungen</a>
+        | <a href="?not_approved">ohne Moderation</a>
+        | <a href="?jury_wait">warten auf Jury</a>
     {% endif %}
 
 
@@ -15,7 +16,7 @@
         <thead>
         <tr>
             <th>Titel</th>
-            <th>Freigabe</th>
+            <th>Status</th>
             {% if is_granted('ROLE_EDITOR') %}
             <th>Highlight</th>
             {% endif %}
@@ -32,6 +33,8 @@
                         <i class="fa fa-times" title="zurückgewiesen"></i>
                     {% elseif session.waitJury %}
                         <i class="fa fa-gavel" title="warten auf Jury"></i>
+                    {% elseif session.scheduled %}
+                        <i class="fa fa-calendar-check-o" title="eingeplant"></i>
                     {% elseif session.accepted %}
                         <i class="fa fa-check" title="freigegeben"></i>
                     {% elseif session.proposed %}

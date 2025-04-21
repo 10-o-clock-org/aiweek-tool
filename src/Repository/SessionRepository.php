@@ -79,7 +79,7 @@ class SessionRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('s')
             ->innerJoin('s.proposedDetails', 'sdp')
             ->addSelect('sdp')
-            ->orderBy('s.start');
+            ->orderBy('LOWER(sdp.title)');
 
         if ($hasChanges) {
             $qb->andWhere('s.proposedDetails != s.acceptedDetails');
@@ -88,6 +88,22 @@ class SessionRepository extends ServiceEntityRepository
         if ($notApproved) {
             $qb->andWhere('s.acceptedDetails IS NULL');
         }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @return Session[]
+     */
+    public function findWaitingForJury(): array
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->innerJoin('s.proposedDetails', 'sdp')
+            ->addSelect('sdp')
+            ->andWhere('s.cancelled = false')
+            ->andWhere('s.status = :moderatorApproved')
+            ->setParameter('moderatorApproved', SessionStatus::ModeratorApproved)
+            ->orderBy('LOWER(sdp.title)');
 
         return $qb->getQuery()->getResult();
     }

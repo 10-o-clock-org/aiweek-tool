@@ -34,7 +34,9 @@ class SessionController extends AbstractController
     public function index(Request $request, SessionRepository $sessionRepository): Response
     {
         if ($this->isGranted(User::ROLE_EDITOR)) {
-            $sessions = $sessionRepository->findAllWithProposedDetails(
+            $sessions = $request->query->has('jury_wait')
+            ? $sessionRepository->findWaitingForJury()
+            : $sessionRepository->findAllWithProposedDetails(
                 $request->query->has('has_changes'),
                 $request->query->has('not_approved')
             );
