@@ -211,6 +211,18 @@ class SessionRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * @return Session[]
+     */
+    public function findDraftOnlySessions(): array
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->select('s')
+            ->andWhere('s.proposedDetails IS NULL');
+
+        return $qb->getQuery()->getResult();
+    }
+
     public function flush()
     {
         $this->_em->flush();
