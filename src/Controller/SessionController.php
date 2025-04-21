@@ -157,6 +157,8 @@ class SessionController extends AbstractController
             }
 
             return $this->redirectToRoute('session_index');
+        } elseif ($form->isSubmitted() && !$form->isValid()) {
+            $this->addFlash('warning', 'Die gemachten Eingaben sind unvollständig! Bitte berichtigen und erneut absenden.');
         }
 
         return $this->render('session/new.html.twig', [
@@ -312,6 +314,8 @@ class SessionController extends AbstractController
                 ->getManager()
                 ->flush();
             return $this->redirectToRoute('session_index');
+        } elseif ($form->isSubmitted() && !$form->isValid()) {
+            $this->addFlash('warning', 'Die gemachten Eingaben sind unvollständig! Bitte berichtigen und erneut absenden.');
         }
 
         return $this->render('session/edit.html.twig', [
