@@ -1,11 +1,11 @@
-# wueww-tool
+# aiweek-tool
 
-Das WueWW-Redaktionstool ist eine Web-Anwendung, die potentiellen Sessiongeber:innen dazu dienen
-soll, ihre Sessions zur WueWW bekannt zu geben. Daran angebunden ist ein kleiner
-Freigabeprozess.
+Das AI-Week Redaktionstool ist eine Web-Anwendung, die potentiellen Sessiongeber:innen dazu dienen
+soll, ihre Sessions zur AI-Week bekannt zu geben. Daran angebunden ist ein kleiner
+Freigabe-/Jury-/Scheduling-Prozess.
 
-Es handelt sich um eine Symfony 5.3 Applikation, die erstmals zur WueWW 2020 zur Verfügung gestellt
-wurde.
+Es handelt sich um eine Symfony 5.4 Applikation, die erstmals zur WueWW 2020 zur Verfügung gestellt
+wurde ... und seither für die AI-Week weiterentwickelt wurde.
 
 ## Mitentwickeln
 
