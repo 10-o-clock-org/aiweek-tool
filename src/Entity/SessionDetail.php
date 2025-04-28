@@ -19,15 +19,16 @@ class SessionDetail
     #[ORM\Column(type: "datetime", nullable: true)]
     private ?\DateTimeInterface $start1 = null;
 
+    #[Assert\NotBlank(message: "Ein Endzeitpunkt muss eingegeben werden.")]
+    #[ORM\Column(type: "datetime", nullable: true)]
+    private ?\DateTimeInterface $stop1 = null;
+
     #[Assert\NotBlank(message: "Ein Alternativtermin muss eingegeben werden.")]
     #[ORM\Column(type: "datetime", nullable: true)]
     private ?\DateTimeInterface $start2 = null;
 
     #[ORM\Column(type: "datetime", nullable: true)]
     private ?\DateTimeInterface $start3 = null;
-
-    #[ORM\Column(type: "integer", nullable: true)]
-    private ?int $duration;
 
     #[ORM\Column(type: "string", length: 255)]
     private $title;
@@ -77,6 +78,17 @@ class SessionDetail
         return $this;
     }
 
+    public function getStop1(): ?\DateTimeInterface
+    {
+        return $this->stop1;
+    }
+
+    public function setStop1(?\DateTimeInterface $stop1): SessionDetail
+    {
+        $this->stop1 = $stop1;
+        return $this;
+    }
+
     public function getStart2(): ?\DateTimeInterface
     {
         return $this->start2;
@@ -96,17 +108,6 @@ class SessionDetail
     public function setStart3(?\DateTimeInterface $start3): SessionDetail
     {
         $this->start3 = $start3;
-        return $this;
-    }
-
-    public function getDuration(): ?int
-    {
-        return $this->duration;
-    }
-
-    public function setDuration(?int $duration): SessionDetail
-    {
-        $this->duration = $duration;
         return $this;
     }
 
@@ -210,9 +211,9 @@ class SessionDetail
     {
         $this
             ->setStart1($this->convertToDateTime($sessionWithDetail->getDate1(), $sessionWithDetail->getStart1()))
+            ->setStop1($this->convertToDateTime($sessionWithDetail->getDate1(), $sessionWithDetail->getStop1()))
             ->setStart2($this->convertToDateTime($sessionWithDetail->getDate2(), $sessionWithDetail->getStart2()))
             ->setStart3($this->convertToDateTime($sessionWithDetail->getDate3(), $sessionWithDetail->getStart3()))
-            ->setDuration($sessionWithDetail->getDuration())
             ->setOnlineOnly($sessionWithDetail->getOnlineOnly())
             ->setTitle($sessionWithDetail->getTitle())
             ->setShortDescription($sessionWithDetail->getShortDescription())
@@ -227,9 +228,9 @@ class SessionDetail
     public function differs(SessionWithDetail $sessionWithDetail): bool
     {
         return $this->getStart1() !== $sessionWithDetail->getStart1() ||
+            $this->getStop1() !== $sessionWithDetail->getStop1() ||
             $this->getStart2() !== $sessionWithDetail->getStart2() ||
             $this->getStart3() !== $sessionWithDetail->getStart3() ||
-            $this->getDuration() !== $sessionWithDetail->getDuration() ||
             $this->getOnlineOnly() !== $sessionWithDetail->getOnlineOnly() ||
             $this->getTitle() !== $sessionWithDetail->getTitle() ||
             $this->getShortDescription() !== $sessionWithDetail->getShortDescription() ||

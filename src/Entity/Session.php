@@ -18,6 +18,9 @@ class Session
     #[ORM\Column(type: "datetime", nullable: true)]
     private $start;
 
+    #[ORM\Column(type: "datetime", nullable: true)]
+    private $stop;
+
     #[ORM\Column(type: "boolean")]
     private bool $cancelled;
 
@@ -68,6 +71,17 @@ class Session
     {
         $this->start = $start;
 
+        return $this;
+    }
+
+    public function getStop()
+    {
+        return $this->stop;
+    }
+
+    public function setStop($stop)
+    {
+        $this->stop = $stop;
         return $this;
     }
 
@@ -176,10 +190,13 @@ class Session
             ->setOrganization($this->getOrganization())
             ->setChannel($details->getChannel())
             ->setOnlineOnly($details->getOnlineOnly())
+            ->setDate1($details->getStart1())
             ->setStart1($details->getStart1())
+            ->setStop1($details->getStop1())
+            ->setDate2($details->getStart2())
             ->setStart2($details->getStart2())
+            ->setDate3($details->getStart3())
             ->setStart3($details->getStart3())
-            ->setDuration($details->getDuration())
             ->setTitle($details->getTitle())
             ->setShortDescription($details->getShortDescription())
             ->setLongDescription($details->getLongDescription())

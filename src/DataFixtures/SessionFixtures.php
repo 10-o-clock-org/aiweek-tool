@@ -200,7 +200,9 @@ class SessionFixtures extends Fixture implements DependentFixtureInterface
         }
 
         $durationDistribution = [30, 60, 60, 60, 120];
-        $detail->setDuration($durationDistribution[array_rand($durationDistribution)]);
+        $duration = $durationDistribution[array_rand($durationDistribution)];
+
+        $detail->setStop1($detail->getStart1()->modify("+$duration minutes"));
     }
 
     private function randomizeDateTime(): \DateTimeImmutable

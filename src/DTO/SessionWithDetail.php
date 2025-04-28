@@ -29,6 +29,12 @@ class SessionWithDetail
 
     /**
      * @var \DateTimeInterface|null
+     * @Assert\NotBlank(message="Ein Endezeitpunkt muss eingegeben werden.")
+     */
+    private $stop1;
+
+    /**
+     * @var \DateTimeInterface|null
      * @Assert\NotBlank(message="Ein Alternativtermin muss eingegeben werden.")
      */
     private $date2;
@@ -48,11 +54,6 @@ class SessionWithDetail
      * @var \DateTimeInterface|null
      */
     private $start3;
-
-    /**
-     * @var int|null
-     */
-    private $duration;
 
     /**
      * @var string|null
@@ -173,6 +174,17 @@ class SessionWithDetail
         return $this;
     }
 
+    public function getStop1(): ?\DateTimeInterface
+    {
+        return $this->stop1;
+    }
+
+    public function setStop1(?\DateTimeInterface $stop1): SessionWithDetail
+    {
+        $this->stop1 = $stop1;
+        return $this;
+    }
+
     public function getStart2(): ?\DateTimeInterface
     {
         return $this->start2;
@@ -192,17 +204,6 @@ class SessionWithDetail
     public function setStart3(?\DateTimeInterface $start3): SessionWithDetail
     {
         $this->start3 = $start3;
-        return $this;
-    }
-
-    public function getDuration(): ?int
-    {
-        return $this->duration;
-    }
-
-    public function setDuration(?int $duration): SessionWithDetail
-    {
-        $this->duration = $duration;
         return $this;
     }
 

@@ -47,19 +47,19 @@ class SessionWithDetailType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $this->createStartDateTime($builder, '1');
+
+        $builder->add('stop1', TimeType::class, [
+            'label' => 'Ende (z. B. 20:00)',
+            'widget' => 'single_text',
+            'html5' => false,
+            'invalid_message' =>
+                'Die erfasste Uhrzeit ist ungültig, bitte nur Stunden und Minuten eingeben (z. B. 18:00).',
+            'attr' => ['class' => 'cancel-return'],
+            'required' => true,
+        ]);
+
         $this->createStartDateTime($builder, '2');
         $this->createStartDateTime($builder, '3', false);
-
-        $builder->add('duration', ChoiceType::class, [
-            'label' => 'Voraussichtliche Dauer',
-            'required' => false,
-            'choices' => [
-                'halbe Stunde' => 30,
-                'eine Stunde' => 60,
-                'zwei Stunden' => 120,
-                'halber Tag' => 240,
-            ],
-        ]);
 
         $builder
             ->add('title', TextType::class, [

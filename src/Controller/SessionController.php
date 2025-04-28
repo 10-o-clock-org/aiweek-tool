@@ -64,9 +64,9 @@ class SessionController extends AbstractController
                 'title' => $session->getAcceptedDetails()->getTitle(),
                 'start' => $session->getStart()?->format('Y-m-d\\TH:i:sP'),
                 'start1' => $session->getAcceptedDetails()->getStart1()?->format('Y-m-d\\TH:i:sP'),
+                'stop1' => $session->getAcceptedDetails()->getStop1()?->format('Y-m-d\\TH:i:sP'),
                 'start2' => $session->getAcceptedDetails()->getStart2()?->format('Y-m-d\\TH:i:sP'),
                 'start3' => $session->getAcceptedDetails()->getStart3()?->format('Y-m-d\\TH:i:sP'),
-                'duration' => $session->getAcceptedDetails()->getDuration(),
                 'onlineOnly' => $session->getAcceptedDetails()->getOnlineOnly(),
                 'goldSponsor' => $session->getOrganization()->isGoldSponsor(),
             ];
@@ -260,8 +260,11 @@ class SessionController extends AbstractController
             throw new BadRequestException('Start date is required');
         }
 
+        $duration = $session->getAcceptedDetails()->getStart1()->diff($session->getAcceptedDetails()->getStop1());
+
         $start = new \DateTimeImmutable($data['start']);
         $session->setStart($start);
+        $session->setStop($start->add($duration));
         $session->setStatus(SessionStatus::Scheduled);
 
         $entityManager = $this->getDoctrine()->getManager();

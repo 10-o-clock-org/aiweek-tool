@@ -12,7 +12,11 @@
         <tbody>
         <tr>
             <th>Wunschtermin</th>
-            <td>{{ (session.proposedDetails.start1 ? session.proposedDetails.start1|date('d.m.Y H:i:s') : '') | diff(session.acceptedDetails.start1 ? session.acceptedDetails.start1|date('d.m.Y H:i:s') : '') }}</td>
+            <td>
+                {{ (session.proposedDetails.start1 ? session.proposedDetails.start1|date('d.m.Y H:i:s') : '') | diff(session.acceptedDetails.start1 ? session.acceptedDetails.start1|date('d.m.Y H:i:s') : '') }}
+                bis
+                {{ (session.proposedDetails.stop1 ? session.proposedDetails.stop1|date('d.m.Y H:i:s') : '') | diff(session.acceptedDetails.stop1 ? session.acceptedDetails.stop1|date('d.m.Y H:i:s') : '') }}
+            </td>
         </tr>
         <tr>
             <th>Alternativtermin</th>
@@ -21,10 +25,6 @@
         <tr>
             <th>Ersatztermin</th>
             <td>{{ (session.proposedDetails.start3 ? session.proposedDetails.start3|date('d.m.Y H:i:s') : '') | diff(session.acceptedDetails.start3 ? session.acceptedDetails.start3|date('d.m.Y H:i:s') : '') }}</td>
-        </tr>
-        <tr>
-            <th>Voraussichtliche Dauer</th>
-            <td>{{ session.proposedDetails.duration | diff(session.acceptedDetails.duration) }}</td>
         </tr>
         <tr>
             <th>Abgesagt?</th>
