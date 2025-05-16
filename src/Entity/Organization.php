@@ -19,10 +19,10 @@ class Organization
     private $sessions;
 
     #[ORM\OneToOne(targetEntity: OrganizationDetail::class, cascade: ["persist", "remove"], orphanRemoval: false)]
-    private ?OrganizationDetail $proposedOrganizationDetails;
+    private ?OrganizationDetail $proposedOrganizationDetails = null;
 
     #[ORM\OneToOne(targetEntity: OrganizationDetail::class, cascade: ["persist", "remove"], orphanRemoval: true)]
-    private ?OrganizationDetail $acceptedOrganizationDetails;
+    private ?OrganizationDetail $acceptedOrganizationDetails = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: "organizations")]
     #[ORM\JoinColumn(nullable: false)]
