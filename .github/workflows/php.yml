@@ -1,0 +1,50 @@
+name: PHP Composer
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Set Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: yarn
+
+      - run: yarn install
+      - run: yarn build
+
+      - run: mkdir ~/.ssh
+      - run: 'echo "$SSH_KEY" >> ~/.ssh/github-action'
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+      - run: 'echo "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts'
+        env:
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+      - run: chmod 400 ~/.ssh/github-action ~/.ssh/known_hosts
+
+      - run: rsync -rtl -e "ssh -i $HOME/.ssh/github-action" COPYING README.md assets bin composer.json composer.lock config migrations public src templates vendor m3621@web15.biohost.net:/home/m3621/Sites/backend.timetable.ai-week.de/
+      - run: ssh -i $HOME/.ssh/github-action m3621@web15.biohost.net "cd Sites/backend.timetable.ai-week.de && php8.2 bin/console cache:clear && php8.2 bin/console cache:warmup && php8.2 bin/console doc:mig:mig -vv --no-interaction"
+
