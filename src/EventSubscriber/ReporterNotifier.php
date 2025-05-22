@@ -27,11 +27,11 @@ class ReporterNotifier implements EventSubscriberInterface
     {
         if (($event->getOldStatus() === null || $event->getOldStatus() === SessionStatus::Draft)
             && $event->getNewStatus() === SessionStatus::Created) {
-            $this->mailerService->sendReporterNotification($event->getSession(), 'Danke für deine Einreichung', 'created');
+            $this->mailerService->sendReporterNotification($event->getSession(), 'AI Week: Danke für deine Einreichung', 'created');
         } elseif ($event->getOldStatus() === SessionStatus::Created && $event->getNewStatus() === SessionStatus::ModeratorApproved) {
-            $this->mailerService->sendReporterNotification($event->getSession(), 'Danke für deinen Event-Vorschlag', 'moderator_approved');
+            $this->mailerService->sendReporterNotification($event->getSession(), 'AI Week: Danke für deinen Event-Vorschlag', 'moderator_approved');
         } elseif ($event->getOldStatus() === SessionStatus::JuryApproved && $event->getNewStatus() === SessionStatus::Scheduled) {
-            $this->mailerService->sendReporterNotification($event->getSession(), 'Dein Event wurde angenommen', 'scheduled');
+            $this->mailerService->sendReporterNotification($event->getSession(), 'AI Week: Dein Event wurde angenommen', 'scheduled');
         }
     }
 
