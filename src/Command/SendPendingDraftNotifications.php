@@ -35,7 +35,7 @@ class SendPendingDraftNotifications extends Command
 
         foreach ($sessions as $session) {
             $session->setDraftNotificationDueDate(null);
-            $this->mailerService->sendReporterNotification($session, 'Erinnerung an nicht eingereichtes Event', 'draft_notification');
+            $this->mailerService->sendReporterNotification($session, 'AI Week: Reminder nicht eingereichtes Event', 'draft_notification');
         }
 
         $this->sessionRepository->flush();
