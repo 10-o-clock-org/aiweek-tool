@@ -124,6 +124,8 @@ class SessionController extends AbstractController
             throw new \LogicException('session_new route not expected to be called by editor');
         }
 
+        throw new AccessDeniedException('Session creation currently not allowed');
+
         $sessionWithDetail = (new SessionWithDetail())->setOrganization(
             $this->getUser()
                 ->getOrganizations()
