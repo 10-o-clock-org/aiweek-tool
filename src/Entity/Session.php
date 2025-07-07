@@ -203,7 +203,9 @@ class Session
             ->setLocation($details->getLocation())
             ->setLocationLat($details->getLocationLat())
             ->setLocationLng($details->getLocationLng())
-            ->setLink($details->getLink());
+            ->setLink($details->getLink())
+            ->setRetrospectLink($details->getRetrospectLink())
+            ->setSlidesLink($details->getSlidesLink());
     }
 
     public function applyDetails(SessionWithDetail $sessionWithDetail): self
