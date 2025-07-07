@@ -119,6 +119,28 @@ class SessionWithDetail
      */
     private $link;
 
+    /**
+     * @var string|null
+     * @Assert\AtLeastOneOf(constraints={
+     *     @Assert\Email(),
+     *     @Assert\Url()
+     * },
+     *     message="Die erfasste URL ist ungültig (und es handelt sich auch nicht um eine E-Mail-Adresse).",
+     *     includeInternalMessages=false)
+     */
+    private $retrospectLink;
+
+    /**
+     * @var string|null
+     * @Assert\AtLeastOneOf(constraints={
+     *     @Assert\Email(),
+     *     @Assert\Url()
+     * },
+     *     message="Die erfasste URL ist ungültig (und es handelt sich auch nicht um eine E-Mail-Adresse).",
+     *     includeInternalMessages=false)
+     */
+    private $slidesLink;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -319,4 +341,28 @@ class SessionWithDetail
         $this->link = $link;
         return $this;
     }
+
+    public function getRetrospectLink(): ?string
+    {
+        return $this->retrospectLink;
+    }
+
+    public function setRetrospectLink(?string $retrospectLink): SessionWithDetail
+    {
+        $this->retrospectLink = $retrospectLink;
+        return $this;
+    }
+
+    public function getSlidesLink(): ?string
+    {
+        return $this->slidesLink;
+    }
+
+    public function setSlidesLink(?string $slidesLink): SessionWithDetail
+    {
+        $this->slidesLink = $slidesLink;
+        return $this;
+    }
+
+
 }

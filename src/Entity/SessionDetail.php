@@ -51,6 +51,12 @@ class SessionDetail
     #[ORM\Column(type: "string", length: 255, nullable: true)]
     private $link;
 
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    private $retrospectLink;
+
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    private $slidesLink;
+
     #[ORM\Column(type: "boolean", options: ["default" => false])]
     private $onlineOnly;
 
@@ -195,6 +201,32 @@ class SessionDetail
         return $this;
     }
 
+    public function getRetrospectLink(): ?string
+    {
+        return $this->retrospectLink;
+    }
+
+    public function setRetrospectLink(?string $retrospectLink)
+    {
+        $this->retrospectLink = $retrospectLink;
+
+        return $this;
+    }
+
+    public function getSlidesLink(): ?string
+    {
+        return $this->slidesLink;
+    }
+
+    public function setSlidesLink(?string $slidesLink)
+    {
+        $this->slidesLink = $slidesLink;
+
+        return $this;
+    }
+
+
+
     public function getOnlineOnly(): ?bool
     {
         return $this->onlineOnly;
@@ -222,7 +254,9 @@ class SessionDetail
             ->setLocation($sessionWithDetail->getLocation())
             ->setLocationLat($sessionWithDetail->getLocationLat())
             ->setLocationLng($sessionWithDetail->getLocationLng())
-            ->setLink($sessionWithDetail->getLink());
+            ->setLink($sessionWithDetail->getLink())
+            ->setRetrospectLink($sessionWithDetail->getRetrospectLink())
+            ->setSlidesLink($sessionWithDetail->getSlidesLink());
     }
 
     public function differs(SessionWithDetail $sessionWithDetail): bool
@@ -239,7 +273,9 @@ class SessionDetail
             $this->getLocation() !== $sessionWithDetail->getLocation() ||
             $this->getLocationLat() !== $sessionWithDetail->getLocationLat() ||
             $this->getLocationLng() !== $sessionWithDetail->getLocationLng() ||
-            $this->getLink() !== $sessionWithDetail->getLink();
+            $this->getLink() !== $sessionWithDetail->getLink() ||
+            $this->getRetrospectLink() !== $sessionWithDetail->getRetrospectLink() ||
+            $this->getSlidesLink() !== $sessionWithDetail->getSlidesLink();
     }
 
     public function getChannel(): ?Channel

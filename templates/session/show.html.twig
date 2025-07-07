@@ -99,6 +99,28 @@
                 {% endif %}
             </td>
         </tr>
+        <tr>
+            <th>Rückblick</th>
+            <td>
+                {% if "@" in detail.retrospectLink %}
+                    <i class="fa fa-envelope"></i>
+                    <a href="mailto:{{ detail.retrospectLink }}">{{ detail.retrospectLink }}</a>
+                {% else %}
+                    <a href="{{ detail.retrospectLink }}" target="_blank">{{ detail.retrospectLink }}</a>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Folien zum Vortrag</th>
+            <td>
+                {% if "@" in detail.slidesLink %}
+                    <i class="fa fa-envelope"></i>
+                    <a href="mailto:{{ detail.slidesLink }}">{{ detail.slidesLink }}</a>
+                {% else %}
+                    <a href="{{ detail.slidesLink }}" target="_blank">{{ detail.slidesLink }}</a>
+                {% endif %}
+            </td>
+        </tr>
         </tbody>
     </table>
 

@@ -33,7 +33,7 @@ class JsonExportController extends AbstractController
         }
 
         $json = [
-            'format' => '0.5.3',
+            'format' => '0.5.4',
             'sessions' => array_map([$this, 'mapSession'], $sessions),
             'channels' => array_map([$this, 'mapChannel'], $channelRepository->findAll()),
         ];
@@ -80,6 +80,14 @@ class JsonExportController extends AbstractController
 
         if ($session->getAcceptedDetails()->getLink()) {
             $result['links']['event'] = trim($session->getAcceptedDetails()->getLink());
+        }
+
+        if ($session->getAcceptedDetails()->getRetrospectLink()) {
+            $result['links']['retrospect'] = trim($session->getAcceptedDetails()->getRetrospectLink());
+        }
+
+        if ($session->getAcceptedDetails()->getSlidesLink()) {
+            $result['links']['slides'] = trim($session->getAcceptedDetails()->getSlidesLink());
         }
 
         $channel = $session->getAcceptedDetails()->getChannel();

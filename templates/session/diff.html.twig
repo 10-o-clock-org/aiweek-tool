@@ -74,6 +74,30 @@
                 {% endif %}
             </td>
         </tr>
+        <tr>
+            <th>Rückblick</th>
+            <td>
+                {% if "@" in session.proposedDetails.retrospectLink %}
+                    <i class="fa fa-envelope"></i>
+                    <a href="mailto:{{ session.proposedDetails.retrospectLink }}">{{ session.proposedDetails.retrospectLink | diff(session.acceptedDetails.retrospectLink) }}</a>
+                {% else %}
+                    <a href="{{ session.proposedDetails.retrospectLink }}"
+                       target="_blank">{{ session.proposedDetails.retrospectLink | diff(session.acceptedDetails.retrospectLink) }}</a>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th>Folien zum Vortrag</th>
+            <td>
+                {% if "@" in session.proposedDetails.slidesLink %}
+                    <i class="fa fa-envelope"></i>
+                    <a href="mailto:{{ session.proposedDetails.slidesLink }}">{{ session.proposedDetails.slidesLink | diff(session.acceptedDetails.slidesLink) }}</a>
+                {% else %}
+                    <a href="{{ session.proposedDetails.slidesLink }}"
+                       target="_blank">{{ session.proposedDetails.slidesLink | diff(session.acceptedDetails.slidesLink) }}</a>
+                {% endif %}
+            </td>
+        </tr>
         </tbody>
     </table>
 

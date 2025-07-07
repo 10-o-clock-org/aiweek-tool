@@ -100,6 +100,28 @@ class SessionWithDetailType extends AbstractType
                     'class' => 'cancel-return',
                 ],
             ])
+            ->add('retrospectLink', TextType::class, [
+                'label_html' => true,
+                'label' =>
+                    'Rückblick (z. B. Link zu einem Beitrag auf einem Blog oder LinkedIn etc.)<br/>' .
+                    'Wichtig, URLs müssen beginnend mit https:// erfasst werden.',
+                'required' => false,
+                'attr' => [
+                    'maxlength' => 255,
+                    'class' => 'cancel-return',
+                ],
+            ])
+            ->add('slidesLink', TextType::class, [
+                'label_html' => true,
+                'label' =>
+                    'Folien zum Vortrag (z. B. Link zu einem PDF, Slideshare, ggf. E-Mail-Adresse etc.)<br/>' .
+                    'Wichtig, URLs müssen beginnend mit https:// erfasst werden.',
+                'required' => false,
+                'attr' => [
+                    'maxlength' => 255,
+                    'class' => 'cancel-return',
+                ],
+            ])
             ->add('channel', EntityType::class, [
                 'label' => 'Kategorie',
                 'class' => Channel::class,
