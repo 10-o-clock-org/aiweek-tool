@@ -100,7 +100,7 @@ class SessionWithDetailType extends AbstractType
                     'class' => 'cancel-return',
                 ],
             ])
-            ->add('retrospectLink', TextType::class, [
+            /* ->add('retrospectLink', TextType::class, [
                 'label_html' => true,
                 'label' =>
                     'Rückblick (z. B. Link zu einem Beitrag auf einem Blog oder LinkedIn etc.)<br/>' .
@@ -121,7 +121,7 @@ class SessionWithDetailType extends AbstractType
                     'maxlength' => 255,
                     'class' => 'cancel-return',
                 ],
-            ])
+            ]) */
             ->add('channel', EntityType::class, [
                 'label' => 'Kategorie',
                 'class' => Channel::class,
