@@ -188,10 +188,11 @@ class SessionWithDetailType extends AbstractType
                 'label' => 'Datum',
                 'required' => $required,
                 'choices' => [
-                    'Montag, 30. Juni 2025' => '2025-06-30',
-                    'Dienstag, 1. Juli 2025' => '2025-07-01',
-                    'Mittwoch, 2. Juli 2025' => '2025-07-02',
-                    'Donnerstag, 3. Juli 2025' => '2025-07-03',
+                    'Montag, 22. Juni 2026' => '2026-06-22',
+                    'Dienstag, 23. Juni 2026' => '2026-06-23',
+                    'Mittwoch, 24. Juni 2026' => '2026-06-24',
+                    'Donnerstag, 25. Juni 2026' => '2026-06-25',
+                    'Freitag, 26. Juni 2026' => '2026-06-26',
                 ],
             ]);
 
