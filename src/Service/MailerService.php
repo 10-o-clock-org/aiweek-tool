@@ -62,11 +62,11 @@ class MailerService
         $this->mailer->send($message);
     }
 
-    public function sendSessionAwaitingApprovalMail(string $toAddress, Session $session): void
+    public function sendSessionAwaitingApprovalMail(array $toAddresses, Session $session): void
     {
         $message = (new Email())
             ->from(self::FROM_ADDRESS)
-            ->to($toAddress)
+            ->to(...$toAddresses)
             ->subject('Event geändert')
             ->text(
                 $this->twig->render('emails/session_awaiting_approval.txt.twig', [
@@ -77,11 +77,11 @@ class MailerService
         $this->mailer->send($message);
     }
 
-    public function sendOrganizationAwaitingApprovalMail(string $toAddress, Organization $organization): void
+    public function sendOrganizationAwaitingApprovalMail(array $toAddresses, Organization $organization): void
     {
         $message = (new Email())
             ->from(self::FROM_ADDRESS)
-            ->to($toAddress)
+            ->to(...$toAddresses)
             ->subject('Veranstalter geändert')
             ->text(
                 $this->twig->render('emails/organization_awaiting_approval.txt.twig', [
@@ -92,11 +92,11 @@ class MailerService
         $this->mailer->send($message);
     }
 
-    public function sendSessionCancelledMail(string $toAddress, Session $session): void
+    public function sendSessionCancelledMail(array $toAddresses, Session $session): void
     {
         $message = (new Email())
             ->from(self::FROM_ADDRESS)
-            ->to($toAddress)
+            ->to(...$toAddresses)
             ->subject('Event abgesagt')
             ->text(
                 $this->twig->render('emails/session_cancelled.txt.twig', [

@@ -10,7 +10,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class UteNotifier implements EventSubscriberInterface
 {
-    const TARGET_EMAIL_ADDRESS = 'event@wueww.de';
+    const TARGET_EMAIL_ADDRESSES = ['hallo@10-o-clock.de', 'franziska.raupach@10-o-clock.de'];
 
     /**
      * @var MailerService
@@ -33,18 +33,18 @@ class UteNotifier implements EventSubscriberInterface
 
     public function onSessionModified(SessionModifiedEvent $event)
     {
-        $this->mailerService->sendSessionAwaitingApprovalMail(self::TARGET_EMAIL_ADDRESS, $event->getSession());
+        $this->mailerService->sendSessionAwaitingApprovalMail(self::TARGET_EMAIL_ADDRESSES, $event->getSession());
     }
 
     public function onSessionCancelled(SessionCancelledEvent $event)
     {
-        $this->mailerService->sendSessionCancelledMail(self::TARGET_EMAIL_ADDRESS, $event->getSession());
+        $this->mailerService->sendSessionCancelledMail(self::TARGET_EMAIL_ADDRESSES, $event->getSession());
     }
 
     public function onOrganizationModified(OrganizationModifiedEvent $event)
     {
         $this->mailerService->sendOrganizationAwaitingApprovalMail(
-            self::TARGET_EMAIL_ADDRESS,
+            self::TARGET_EMAIL_ADDRESSES,
             $event->getOrganization()
         );
     }
