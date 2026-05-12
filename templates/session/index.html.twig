@@ -85,7 +85,7 @@
         </tbody>
     </table>
 
-    {# {% if not is_granted('ROLE_EDITOR') %}
+    {% if not is_granted('ROLE_EDITOR') %}
         <a class="btn btn-success" href="{{ path('session_new') }}">Neues Event vorschlagen</a>
-    {% endif %} #}
+    {% endif %}
 {% endblock %}
